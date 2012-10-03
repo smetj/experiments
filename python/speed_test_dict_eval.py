@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import timeit
+import sys
+import platform
 
 dictionary={"one":1}
 
@@ -38,11 +40,19 @@ def test5():
     except KeyError:
         return False
 
+def test6():
+    if 'one' in dictionary:
+        return True
+    else:
+        return False
+
 def output(name, iterations, seconds):
     print "%s, %s iterations: %s seconds"% (name, iterations, seconds)
 
 if __name__ == '__main__':
     iterations=10000000
+    print sys.version
+    print platform.platform()
 
     test_1 = timeit.Timer("test1()","from __main__ import test1")
     output("has_key on existing key", iterations, test_1.timeit(number=iterations))
@@ -58,3 +68,6 @@ if __name__ == '__main__':
 
     test_5 = timeit.Timer("test5()","from __main__ import test5")
     output("try/except KeyError on non existing key", iterations, test_5.timeit(number=iterations))
+    
+    test_6 = timeit.Timer("test6()","from __main__ import test6")
+    output("if key in dict", iterations, test_6.timeit(number=iterations))
