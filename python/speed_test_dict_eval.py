@@ -1,9 +1,5 @@
 #!/usr/bin/python
 
-import timeit
-import sys
-import platform
-from prettytable import PrettyTable
 from testlap import TestLap
 
 class DictionaryMethods():
