@@ -33,7 +33,7 @@ class OutputData():
         '''Write directly to a remote socket.'''
         self.socket.sendto("x"*self.size,('127.0.0.1',10000))
     
-    def end_test_2(self):
+    def post_test_2(self):
         self.socket.close()
 
 if __name__ == '__main__':
