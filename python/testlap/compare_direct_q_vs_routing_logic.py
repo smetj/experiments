@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  gevent_queue_exchange.py
+#  compare_direct_q_vs_routing_logic.py
 #
 #  Copyright 2012 Jelle Smet <development@smetj.net>
 #
