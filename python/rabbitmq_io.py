@@ -28,17 +28,16 @@ from logging import DEBUG, INFO
 
 def setup():
         wb = Wishbone()
-        wb.registerModule ( ('wishbone.io_modules.broker', 'Broker', 'broker'), host='sandbox', vhost='/', username='guest', password='guest', consume_queue='rabbitmq_io', prefetch_count=100, no_ack=True )
-        wb.registerModule ( ('wishbone.modules.brokerloopback', 'BrokerLoopback', 'brokerloopback'), key='rabbitmq_io', exchange='', dump=500 )
-
-        #Connecting the dots
+        wb.registerModule ( ('wishbone.io_modules.broker', 'Broker', 'broker'), host='sandbox', vhost='/', username='guest', password='guest', consume_queue='rabbitmq_io', prefetch_count=100, no_ack=False )
+        wb.registerModule ( ('wishbone.modules.brokerloopback', 'BrokerLoopback', 'brokerloopback'), key='rabbitmq_io', exchange='', dump=10000 )
         wb.connect (wb.broker.inbox, wb.brokerloopback.inbox)
         wb.connect (wb.brokerloopback.outbox, wb.broker.outbox)
         wb.start()
         
 def main():        
-    server = ParallelServer(instances=2, setup=setup, daemonize=False, name='molog', log_level=INFO)
+    server = ParallelServer(instances=1, setup=setup, daemonize=False, name='rabbitmq_io', log_level=INFO)
     server.start()
 
 if __name__ == '__main__':
+    
     main()
