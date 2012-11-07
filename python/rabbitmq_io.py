@@ -28,8 +28,22 @@ from logging import DEBUG, INFO
 
 def setup():
         wb = Wishbone()
-        wb.registerModule ( ('wishbone.io_modules.broker', 'Broker', 'broker'), host='sandbox', vhost='/', username='guest', password='guest', consume_queue='rabbitmq_io', prefetch_count=100, no_ack=False )
-        wb.registerModule ( ('wishbone.modules.brokerloopback', 'BrokerLoopback', 'brokerloopback'), key='rabbitmq_io', exchange='', dump=10000 )
+        wb.registerModule ( ('wishbone.io_modules.broker', 'Broker', 'broker'),
+                            host='sandbox',
+                            vhost='/',
+                            username='guest',
+                            password='guest',
+                            consume_queue='rabbitmq_io',
+                            prefetch_count=100,
+                            no_ack=False
+        )
+        
+        wb.registerModule ( ('wishbone.modules.brokerloopback', 'BrokerLoopback', 'brokerloopback'),
+                            key='rabbitmq_io',
+                            exchange='',
+                            dump=500
+        )
+        
         wb.connect (wb.broker.inbox, wb.brokerloopback.inbox)
         wb.connect (wb.brokerloopback.outbox, wb.broker.outbox)
         wb.start()
