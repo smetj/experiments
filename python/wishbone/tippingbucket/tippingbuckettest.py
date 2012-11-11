@@ -28,21 +28,21 @@ from logging import DEBUG, INFO
 import argparse
 
 class TippingBucketTest():
-    def __init__(self, inputgenerator, tippingbucket, stdout):
+    def __init__(self, inputgenerator, tippingbucket, gotmessage):
         self.inputgenerator=inputgenerator
         self.tippingbucket=tippingbucket
-        self.stdout=stdout
+        self.gotmessage=gotmessage
         self.setup()    
 
     def setup(self):
         wb = Wishbone()
         wb.registerModule ( ('wishbone.io_modules.inputgenerator', 'InputGenerator', 'inputgenerator'), **self.inputgenerator )
         wb.registerModule ( ('wishbone.modules.tippingbucket', 'TippingBucket', 'tippingbucket'), **self.tippingbucket )
-        wb.registerModule ( ('wishbone.modules.stdout', 'STDOUT', 'stdout'), **self.stdout )
+        wb.registerModule ( ('wishbone.modules.gotmessage', 'GotMessage', 'gotmessage'), **self.gotmessage )
         
         #Connecting the dots
         wb.connect (wb.inputgenerator.inbox, wb.tippingbucket.inbox)
-        wb.connect (wb.tippingbucket.outbox, wb.stdout.inbox)
+        wb.connect (wb.tippingbucket.outbox, wb.gotmessage.inbox)
         wb.start()
         
 def main():
@@ -58,7 +58,7 @@ def main():
                     command=cli['command'][0],
                     config=cli['config'],
                     name='TippingBucketTest',
-                    log_level=DEBUG
+                    log_level=INFO
     )
 
 if __name__ == '__main__':
