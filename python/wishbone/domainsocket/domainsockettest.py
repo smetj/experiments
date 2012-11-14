@@ -52,7 +52,7 @@ class DomainSocketTest():
 
     def setup(self):
         wb = Wishbone()
-        wb.registerModule ( ('wishbone.io_modules.domainsocket', 'domainsocket', 'domainsocket'), **self.domainsocket )
+        wb.registerModule ( ('wishbone.io_modules.domainsocket', 'DomainSocket', 'domainsocket'), **self.domainsocket )
         wb.registerModule ( ('wishbone.modules.stdout', 'STDOUT', 'stdout'), **self.stdout )
         
         #Connecting the dots
