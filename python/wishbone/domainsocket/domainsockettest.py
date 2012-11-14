@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  domainsocketserver.py
+#  domainsockettest.py
 #  
 #  Copyright 2012 Jelle Smet development@smetj.net
 #  
@@ -27,14 +27,14 @@ from wishbone.server import ParallelServer
 from logging import DEBUG, INFO
 import argparse
 
-class DomainSocketServerTest():
+class DomainSocketTest():
     '''
     Description:
     
         This WishBone setup starts a streaming server listening on a unix domain socket.
         It accepts incoming data and print it on STDOUT.
     
-        The module parameters can adapted in domainsocketserver.cfg.
+        The module parameters can adapted in domainsocket.cfg.
     
     Goal:
     
@@ -42,21 +42,21 @@ class DomainSocketServerTest():
     
     Usage:
     
-        ./domainsocketservertest.py debug --config domainsocketservertest.cfg
+        ./domainsockettest.py debug --config domainsockettest.cfg
     '''
     
-    def __init__(self, domainsocketserver, stdout):
-        self.domainsocketserver=domainsocketserver
+    def __init__(self, domainsocket, stdout):
+        self.domainsocket=domainsocket
         self.stdout=stdout
         self.setup()    
 
     def setup(self):
         wb = Wishbone()
-        wb.registerModule ( ('wishbone.io_modules.domainsocketserver', 'DomainSocketServer', 'domainsocketserver'), **self.domainsocketserver )
+        wb.registerModule ( ('wishbone.io_modules.domainsocket', 'domainsocket', 'domainsocket'), **self.domainsocket )
         wb.registerModule ( ('wishbone.modules.stdout', 'STDOUT', 'stdout'), **self.stdout )
         
         #Connecting the dots
-        wb.connect (wb.domainsocketserver.inbox, wb.stdout.inbox)
+        wb.connect (wb.domainsocket.inbox, wb.stdout.inbox)
         wb.start()
         
 def main():
@@ -68,10 +68,10 @@ def main():
     cli=vars(parser.parse_args())
     
     ParallelServer( instances=int(cli['instances']),
-                    setup=DomainSocketServerTest,
+                    setup=DomainSocketTest,
                     command=cli['command'][0],
                     config=cli['config'],
-                    name='DomainSocketServerTest',
+                    name='DomainSocketTest',
                     log_level=DEBUG
     )
 
