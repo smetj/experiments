@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  tippingbuckettest.py
+#  domainsocketserver.py
 #  
 #  Copyright 2012 Jelle Smet development@smetj.net
 #  
@@ -20,46 +20,43 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
+#
 
 from wishbone import Wishbone
 from wishbone.server import ParallelServer
 from logging import DEBUG, INFO
 import argparse
 
-class TippingBucketTest():
+class DomainSocketServerTest():
     '''
     Description:
     
-        This WishBone setup starts with generating random data using the InputGenerator module.  The generate data is send to
-        the TippingBucket module which buffers and flushes depending on the total buffer size or age.
+        This WishBone setup starts a streaming server listening on a unix domain socket.
+        It accepts incoming data and print it on STDOUT.
     
-        The properties of both modules are controlled by the parameters defined in the tippingbuckettest.cfg file.
+        The module parameters can adapted in domainsocketserver.cfg.
     
     Goal:
     
-        A demonstration of the tippingbucket buffer functionality.
+        A demonstration of a domain socket listener.
     
     Usage:
     
-        ./tippingbuckettest.py debug --config tippingbuckettest.cfg
+        ./domainsocketservertest.py debug --config domainsocketservertest.cfg
     '''
     
-    def __init__(self, inputgenerator, tippingbucket, gotmessage):
-        self.inputgenerator=inputgenerator
-        self.tippingbucket=tippingbucket
-        self.gotmessage=gotmessage
+    def __init__(self, domainsocketserver, stdout):
+        self.domainsocketserver=domainsocketserver
+        self.stdout=stdout
         self.setup()    
 
     def setup(self):
         wb = Wishbone()
-        wb.registerModule ( ('wishbone.io_modules.inputgenerator', 'InputGenerator', 'inputgenerator'), **self.inputgenerator )
-        wb.registerModule ( ('wishbone.modules.tippingbucket', 'TippingBucket', 'tippingbucket'), **self.tippingbucket )
-        wb.registerModule ( ('wishbone.modules.gotmessage', 'GotMessage', 'gotmessage'), **self.gotmessage )
+        wb.registerModule ( ('wishbone.io_modules.domainsocketserver', 'DomainSocketServer', 'domainsocketserver'), **self.domainsocketserver )
+        wb.registerModule ( ('wishbone.modules.stdout', 'STDOUT', 'stdout'), **self.stdout )
         
         #Connecting the dots
-        wb.connect (wb.inputgenerator.inbox, wb.tippingbucket.inbox)
-        wb.connect (wb.tippingbucket.outbox, wb.gotmessage.inbox)
+        wb.connect (wb.domainsocketserver.inbox, wb.stdout.inbox)
         wb.start()
         
 def main():
@@ -71,11 +68,11 @@ def main():
     cli=vars(parser.parse_args())
     
     ParallelServer( instances=int(cli['instances']),
-                    setup=TippingBucketTest,
+                    setup=DomainSocketServerTest,
                     command=cli['command'][0],
                     config=cli['config'],
-                    name='TippingBucketTest',
-                    log_level=INFO
+                    name='DomainSocketServerTest',
+                    log_level=DEBUG
     )
 
 if __name__ == '__main__':

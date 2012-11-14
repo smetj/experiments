@@ -31,20 +31,24 @@ from sys import stdout
 def looper0():
     while True:
         for _ in range(100):
-            stdout.write ("0")
+            pass
+            #stdout.write ("0")
         sleep(0)
 
 def looper1():
     while True:
         for _ in range(100):
-            stdout.write ("1")
+            pass
+            #stdout.write ("1")
         sleep(0)
             
 def main():
     spawn(looper0)
+    sleep(0)
     spawn(looper1)
-    sleep(60)
-    
+    sleep(1)
+    print ("yeah")
+   
 
 if __name__ == '__main__':
 	main()
