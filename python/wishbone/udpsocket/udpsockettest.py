@@ -68,10 +68,10 @@ def main():
     cli=vars(parser.parse_args())
     
     ParallelServer( instances=int(cli['instances']),
-                    setup=NamedPipeTest,
+                    setup=UDPSocketTest,
                     command=cli['command'][0],
                     config=cli['config'],
-                    name='NamedPipeTest',
+                    name='UDPSocketTest',
                     log_level=DEBUG
     )
 
