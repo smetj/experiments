@@ -1,0 +1,23 @@
+{
+  "bootstrap":{
+    "udpsocket":{
+      "module":"wishbone.io_modules.udpsocket",
+      "class":"UDPSocket",
+      "variables":{
+        "port":10987
+      }
+    },
+    "stdout":{
+      "module":"wishbone.modules.stdout",
+      "class":"STDOUT",
+      "variables":{
+        "purge":true
+      }
+    }
+  },
+  "routingtable":{
+    "udpsocket.inbox":[
+      "stdout.inbox"
+    ]
+  }
+}
