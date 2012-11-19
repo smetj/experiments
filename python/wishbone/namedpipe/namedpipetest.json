@@ -1,0 +1,23 @@
+{
+  "bootstrap":{
+    "namedpipe":{
+      "module":"wishbone.io_modules.namedpipe",
+      "class":"NamedPipe",
+      "variables":{
+        "path":"/tmp/namedpipe"
+      }
+    },
+    "stdout":{
+      "module":"wishbone.modules.stdout",
+      "class":"STDOUT",
+      "variables":{
+        "purge":true
+      }
+    }
+  },
+  "routingtable":{
+    "namedpipe.inbox":[
+      "stdout.inbox"
+    ]
+  }
+}
