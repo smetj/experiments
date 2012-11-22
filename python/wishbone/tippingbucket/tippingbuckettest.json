@@ -8,7 +8,7 @@
         "max_payload":100,
         "min_interval":0,
         "max_interval":0.01,
-        "min_outage_start":0,
+        "min_outage_start":5,
         "max_outage_start":10,
         "min_outage_length":10,
         "max_outage_length":20
@@ -26,7 +26,6 @@
       "module":"wishbone.modules.gotmessage",
       "class":"GotMessage",
       "variables":{
-        "purge":true
       }
     }    
   },
