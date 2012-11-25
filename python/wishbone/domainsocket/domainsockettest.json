@@ -1,4 +1,9 @@
 {
+  "system":{
+    "metrics":true,
+    "metrics_interval":10,
+    "metrics_dst":"logging"
+  },
   "bootstrap":{
     "domainsocket":{
       "module":"wishbone.io_modules.domainsocket",
