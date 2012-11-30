@@ -1,6 +1,6 @@
 {
    "system":{
-      "metrics":true,
+      "metrics":false,
       "metrics_interval":10,
       "metrics_dst":"logging"
    },
@@ -9,13 +9,14 @@
          "module":"wishbone.io_modules.broker",
          "class":"Broker",
          "variables":{
-            "host":"localhost",
+            "host":"sandbox",
             "vhost":"/",
             "username":"guest",
             "password":"guest",
             "consume_queue":"wishbone",
-            "prefetch_count":100,
-            "no_ack":false
+            "prefetch_count":200,
+            "no_ack":true,
+            "delivery_mode":2
          }
       },
       "loopback":{
@@ -24,7 +25,7 @@
          "variables":{
             "key":"wishbone",
             "exchange":"",
-            "dump":500
+            "dump":5000
          }
       }
    },

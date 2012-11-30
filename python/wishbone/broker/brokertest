@@ -25,4 +25,9 @@
 from wishbone.server import BootStrap
 
 if __name__ == '__main__':
-	BootStrap("BrokerTest")
+	BootStrap(name="BrokerTest",
+        description="This setup generates a feedback loop to the RabbitMQ message broker.",
+        version="0.1",
+        author="Jelle Smet",
+        support="https://groups.google.com/forum/?fromgroups=#!forum/python-wishbone"
+    )
