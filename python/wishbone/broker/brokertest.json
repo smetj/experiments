@@ -19,21 +19,30 @@
             "delivery_mode":2
          }
       },
-      "loopback":{
-         "module":"wishbone.modules.brokerloopback",
-         "class":"BrokerLoopback",
+      "header":{
+         "module":"wishbone.modules.brokerheader",
+         "class":"BrokerHeader",
          "variables":{
             "key":"wishbone",
-            "exchange":"",
-            "dump":5000
+            "exchange":""
+         }
+      },
+      "dump":{
+         "module":"wishbone.io_modules.dumpdata",
+         "class":"DumpData",
+         "variables":{
+            "amount":5000
          }
       }
    },
    "routingtable":{
-      "broker.inbox":[
-         "loopback.inbox"
+      "dump.inbox":[
+         "header.inbox"
       ],
-      "loopback.outbox":[
+      "broker.inbox":[
+         "header.inbox"
+      ],
+      "header.outbox":[
          "broker.outbox"
       ]
    }
