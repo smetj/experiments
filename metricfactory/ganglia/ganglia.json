@@ -13,7 +13,7 @@
       }
     },
     "ganglia":{
-      "module":"decoders.decodeganglia",
+      "module":"metricfactory.decoders.decodeganglia",
       "class":"DecodeGanglia",
       "variables":{
 
