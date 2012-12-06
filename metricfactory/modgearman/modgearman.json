@@ -9,7 +9,13 @@
       "module":"metricfactory.iomodules.modgearman",
       "class":"ModGearman",
       "variables":{
-
+        "hostnames":[
+          "host1",
+          "host2",
+          "host3"
+        ],
+        "secret":"xxxxxxxxxxxxxxxx",
+        "workers":10
       }
     },
     "stdout":{
