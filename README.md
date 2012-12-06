@@ -1,4 +1,4 @@
-experiments
+Experiments
 ===========
 
-Bits and pieces of code, tests and experiments
+Examples, code, tests and experiments.

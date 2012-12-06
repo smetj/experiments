@@ -4,7 +4,7 @@
       "module":"wishbone.io_modules.udpsocket",
       "class":"UDPSocket",
       "variables":{
-        "port":10987
+        "port":8649
       }
     },
     "stdout":{
