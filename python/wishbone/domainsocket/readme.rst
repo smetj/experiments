@@ -5,7 +5,7 @@ Introduction:
 -------------
 
 Demonstrates the usage of the domain socket input module.
-
+In this example the server is running in blob mode.
 
 Usage:
 ------
