@@ -1,0 +1,28 @@
+{
+  "system":{
+    "metrics":false,
+    "metrics_interval":10,
+    "metrics_dst":"logging"
+  },
+  "bootstrap":{
+    "modgearman":{
+      "module":"metricfactory.iomodules.modgearman",
+      "class":"ModGearman",
+      "variables":{
+
+      }
+    },
+    "stdout":{
+      "module":"wishbone.modules.stdout",
+      "class":"STDOUT",
+      "variables":{
+        "purge":true
+      }
+    }
+  },
+  "routingtable":{
+    "modgearman.inbox":[
+      "stdout.inbox"
+    ]
+  }
+}
