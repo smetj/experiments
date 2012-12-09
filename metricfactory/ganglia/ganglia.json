@@ -19,6 +19,14 @@
 
       }
     },
+    "buffer":{
+      "module":"wishbone.modules.tippingbucket",
+      "class":"TippingBucket",
+      "variables":{
+        "age":10,
+        "size":10000
+      }    
+    },
     "stdout":{
       "module":"wishbone.modules.stdout",
       "class":"STDOUT",
