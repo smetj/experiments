@@ -28,8 +28,7 @@ class ValueEvaluation():
     def test_2(self):
         '''Initialize a class and call a function from it.'''
         
-        test=SomeClass()
-        test.go()
+        SomeClass().go()
 
 if __name__ == '__main__':
     instance=ValueEvaluation()
