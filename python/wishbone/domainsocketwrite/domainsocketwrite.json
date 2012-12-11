@@ -1,0 +1,29 @@
+{
+  "system":{
+    "metrics":true,
+    "metrics_interval":10,
+    "metrics_dst":"logging"
+  },
+  "bootstrap":{
+    "domainsocket":{
+      "module":"wishbone.io_modules.domainsocketwrite",
+      "class":"DomainSocketWrite",
+      "variables":{
+        "pool":true,
+        "path":"/tmp/wishbone"
+      }
+    },
+    "stdout":{
+      "module":"wishbone.modules.stdout",
+      "class":"STDOUT",
+      "variables":{
+        "purge":true
+      }
+    }
+  },
+  "routingtable":{
+    "domainsocket.inbox":[
+      "stdout.inbox"
+    ]
+  }
+}
