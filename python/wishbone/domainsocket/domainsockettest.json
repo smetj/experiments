@@ -9,7 +9,8 @@
       "module":"wishbone.io_modules.domainsocket",
       "class":"DomainSocket",
       "variables":{
-        "directory":"/tmp/wishbone"
+        "pool":true,
+        "path":"/tmp/wishbone"
       }
     },
     "stdout":{
