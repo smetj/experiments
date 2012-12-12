@@ -1,0 +1,23 @@
+{
+  "bootstrap":{
+    "namedpipe":{
+      "module":"wishbone.io_modules.namedpipe",
+      "class":"NamedPipe",
+      "variables":{
+        "path":"/tmp/namedpipe"
+      }
+    },
+    "tcpsocket":{
+      "module":"wishbone.io_modules.tcpsocketwrite",
+      "class":"TCPSocketWrite",
+      "variables":{
+        "pool":["10.1.63.175:2003"]
+      }
+    }
+  },
+  "routingtable":{
+    "namedpipe.inbox":[
+      "tcpsocket.inbox"
+    ]
+  }
+}
