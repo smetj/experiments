@@ -20,11 +20,14 @@ Usage:
 ------
 
 Print Nagios/Mod_Gearman metrics converted to MetricFactory internal format to STDOUT:
+
         metricfactory debug --config modgearman.json
 
 Print Nagios/Mod_Gearman metrics converts to Graphite format to STDOUT:
+
         metricfactory debug --config modgearman2graphitestdout.json
 
 
 Since Gearmand allows multiple concurrent consumers and Graphite allows concurrent updates you can start multiple instance:
+
         metricfactory debug --config modgearman2graphitestdout.json --instances 5
