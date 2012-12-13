@@ -4,7 +4,12 @@ ModGearman
 Introduction:
 -------------
 
+modgearman.json:
 Consume Nagios metrics from a ModGearman instance and print them to STDOUT.
+
+modgearman2graphitestdout.json
+Consume Nagios metrics from a ModGearman instance, convert them to Graphite format and print them to STDOUT.
+If you really want to write the data to Graphite use the wishbone.io_modules.tcpsocketwrite module instead of stdout.
 
 Installation:
 --------------
@@ -15,3 +20,4 @@ Usage:
 ------
 
 metricfactory debug --config modgearman.json
+metricfactory debug --config modgearman2graphitestdout.json
