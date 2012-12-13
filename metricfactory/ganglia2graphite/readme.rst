@@ -16,5 +16,10 @@ Installation:
 
 Usage:
 ------
+If you would like to print the Graphite date to stdout then:
 
-metricfactory debug --config ganglia2graphite.json
+	metricfactory debug --config ganglia2graphitestdout.json
+
+If you would like to submit the data to Ganglia:
+
+	metricfactory debug --config ganglia2graphite.json
