@@ -19,5 +19,9 @@ Installation:
 Usage:
 ------
 
-metricfactory debug --config modgearman.json
-metricfactory debug --config modgearman2graphitestdout.json
+$ metricfactory debug --config modgearman.json
+$ metricfactory debug --config modgearman2graphitestdout.json
+
+
+Since Gearmand allows multiple concurrent consumers and Graphite allows concurrent updates you can start multiple instance:
+$ metricfactory debug --config modgearman2graphitestdout.json --instances 5
