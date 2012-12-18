@@ -5,7 +5,7 @@
     "metrics_dst":"logging"
   },
   "bootstrap":{
-    "domainsocket":{
+    "udsserver":{
       "module":"wishbone.iomodules.udsserver",
       "class":"UDSServer",
       "variables":{
@@ -22,7 +22,7 @@
     }
   },
   "routingtable":{
-    "domainsocket.inbox":[
+    "udsserver.inbox":[
       "stdout.inbox"
     ]
   }
