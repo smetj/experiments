@@ -18,7 +18,7 @@ Usage:
 ------
 If you would like to print the Graphite metrics to stdout then:
 
-	metricfactory debug --config ganglia2graphitestdout.json
+	metricfactory debug --config ganglia2graphite2stdout.json
 
 If you would like to submit the metrics to Ganglia:
 
