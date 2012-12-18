@@ -5,9 +5,9 @@
     "metrics_dst":"logging"
   },
   "bootstrap":{
-    "domainsocket":{
-      "module":"wishbone.io_modules.domainsocketwrite",
-      "class":"DomainSocketWrite",
+    "domainsocketserver":{
+      "module":"wishbone.iomodules.domainsocketserver",
+      "class":"DomainSocketServer",
       "variables":{
         "pool":true,
         "path":"/tmp/wishbone"
@@ -22,7 +22,7 @@
     }
   },
   "routingtable":{
-    "domainsocket.inbox":[
+    "domainsocketserver.inbox":[
       "stdout.inbox"
     ]
   }
