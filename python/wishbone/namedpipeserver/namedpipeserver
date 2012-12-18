@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  namedpipetest
+#  namedpipeserver
 #  
 #  Copyright 2012 Jelle Smet <development@smetj.net>
 #  
@@ -25,4 +25,4 @@
 from wishbone.server import BootStrap
 
 if __name__ == '__main__':
-	BootStrap("NamedPipeTest")
+	BootStrap("NamedPipeServer")
