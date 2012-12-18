@@ -1,0 +1,28 @@
+{
+  "system":{
+    "metrics":false,
+    "metrics_interval":10,
+    "metrics_dst":"logging"
+  },
+  "bootstrap":{
+    "udsserver":{
+      "module":"wishbone.iomodules.udsserver",
+      "class":"UDSServer",
+      "variables":{
+        "pool":true,
+	"path":"/tmp/socket_pool"
+      }
+    },
+    "gotmessage":{
+      "module":"wishbone.modules.gotmessage",
+      "class":"GotMessage",
+      "variables":{
+      }
+    }
+  },
+  "routingtable":{
+    "udsserver.inbox":[
+     "gotmessage.inbox"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "system":{
+    "metrics":false,
+    "metrics_interval":10,
+    "metrics_dst":"logging"
+  },
+  "bootstrap":{
+    "udpserver":{
+      "module":"wishbone.iomodules.udpserver",
+      "class":"UDPServer",
+      "variables":{
+        "port":8649
+      }
+    },
+    "udsclient":{
+      "module":"wishbone.iomodules.udsclient",
+      "class":"UDSClient",
+      "variables":{
+	"pool":true,
+	"path":"/tmp/socket_pool"
+
+      }
+    }
+  },
+  "routingtable":{
+    "udpserver.inbox":[
+      "udsclient.inbox"
+    ]
+  }
+}
