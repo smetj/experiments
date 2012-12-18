@@ -1,8 +1,8 @@
 {
   "bootstrap":{
-    "udpsocket":{
-      "module":"wishbone.io_modules.udpsocket",
-      "class":"UDPSocket",
+    "udpserver":{
+      "module":"wishbone.iomodules.udpserver",
+      "class":"UDPServer",
       "variables":{
         "port":8649
       }
@@ -16,7 +16,7 @@
     }
   },
   "routingtable":{
-    "udpsocket.inbox":[
+    "udpserver.inbox":[
       "stdout.inbox"
     ]
   }

@@ -6,11 +6,11 @@
   },
   "bootstrap":{
     "domainsocket":{
-      "module":"wishbone.io_modules.domainsocket",
-      "class":"DomainSocket",
+      "module":"wishbone.iomodules.udsserver",
+      "class":"UDSServer",
       "variables":{
-        "pool":true,
-        "path":"/tmp/wishbone"
+        "pool":false,
+        "path":"/tmp/udsserver"
       }
     },
     "stdout":{

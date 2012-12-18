@@ -6,7 +6,7 @@
    },
    "bootstrap":{
       "broker":{
-         "module":"wishbone.io_modules.broker",
+         "module":"wishbone.iomodules.broker",
          "class":"Broker",
          "variables":{
             "host":"sandbox",
@@ -28,7 +28,7 @@
          }
       },
       "dump":{
-         "module":"wishbone.io_modules.dumpdata",
+         "module":"wishbone.iomodules.dumpdata",
          "class":"DumpData",
          "variables":{
             "amount":5000
