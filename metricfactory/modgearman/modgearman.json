@@ -6,7 +6,7 @@
   },
   "bootstrap":{
     "modgearman":{
-      "module":"metricfactory.iomodules.modgearman",
+      "module":"wishbone.iomodules.modgearman",
       "class":"ModGearman",
       "variables":{
         "hostnames":[
