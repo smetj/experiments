@@ -37,7 +37,7 @@
       "module":"wishbone.iomodules.tcpclient",
       "class":"TCPClient",
       "variables":{
-        "pool":["yourgraphiteserver:2003"]
+        "pool":["graphite-001:2003"]
       }
     }
   },
