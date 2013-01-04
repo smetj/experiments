@@ -16,10 +16,27 @@ Installation:
 
 Usage:
 ------
+
+Example 1:
+~~~~~~~~~~
 If you would like to print the Graphite metrics to stdout then:
 
-	metricfactory debug --config ganglia2graphite2stdout.json
+	[vagrant@metricfactory-001 ~]$ metricfactory debug --config ganglia2graphite2stdout.json
 
-If you would like to submit the metrics to Ganglia:
 
-	metricfactory debug --config ganglia2graphite.json
+Example 2:
+~~~~~~~~~~
+If you would like to submit the metrics directly to Ganglia:
+
+	[vagrant@metricfactory-001 ~]$ metricfactory debug --config ganglia2graphite.json
+
+Example 4:
+~~~~~~~~~~
+Receive Ganglia data over UDP and balance data to a set of MetricFactory decoders accepting data over Unix domain socket:
+
+        [vagrant@metricfactory-001 ~]$ metricfactory debug --config loadbalance-ganglia.json --pid /tmp/loadbalance-ganglia.pid
+
+Start 5 parallel instances to recieve Ganglia data over Unix Domain socket, decode it and submit to Graphite:
+
+        [vagrant@metricfactory-001 ~]$ metricfactory debug --config uds-ganglia-graphite.json --instances 5 --pid /tmp/uds-ganglia-graphite.pid
+

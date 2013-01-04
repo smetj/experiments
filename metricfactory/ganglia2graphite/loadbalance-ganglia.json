@@ -1,0 +1,30 @@
+{
+  "system":{
+    "metrics":false,
+    "metrics_interval":10,
+    "metrics_dst":"logging"
+  },
+  "bootstrap":{
+    "udpsocket":{
+      "module":"wishbone.iomodules.udpserver",
+      "class":"UDPServer",
+      "variables":{
+        "port":8649
+      }
+    },
+    "domainsocketwrite":{
+      "module":"wishbone.iomodules.udsclient",
+      "class":"UDSClient",
+      "variables":{
+        "pool":true,
+        "path":"/tmp/metricfactory"
+      }
+    }
+  },
+  "routingtable":{
+    "udpsocket.inbox":[
+      "domainsocketwrite.inbox"
+    ]
+  }
+}
+
