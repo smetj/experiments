@@ -14,4 +14,10 @@ Installation:
 Usage:
 ------
 
-metricfactory debug --config ganglia.json
+Example 1:
+~~~~~~~~~~
+
+Receive Ganglia data over UDP, decode it and print to STDOUT:
+
+	[vagrant@metricfactory-001 ~]$ metricfactory debug --config simple-ganglia-example.json
+
