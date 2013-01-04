@@ -30,7 +30,7 @@ If you would like to submit the metrics directly to Ganglia:
 
 	[vagrant@metricfactory-001 ~]$ metricfactory debug --config ganglia2graphite.json
 
-Example 4:
+Example 3:
 ~~~~~~~~~~
 Receive Ganglia data over UDP and balance data to a set of MetricFactory decoders accepting data over Unix domain socket:
 
