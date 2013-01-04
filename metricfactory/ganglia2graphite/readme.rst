@@ -1,4 +1,4 @@
-Ganglia to Grapĥite
+Ganglia to Graphite
 ===================
 
 Introduction:
