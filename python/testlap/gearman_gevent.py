@@ -100,6 +100,6 @@ class GearmanIO():
         worker.work()
 
 if __name__ == '__main__':
-    instance=GearmanIO('besrvuc-nag02',jobs=10,threads=10,data="gearman_gevent")
+    instance=GearmanIO('sandbox',jobs=10,threads=10,data="gearman_gevent")
     test_lap=TestLap(instance=instance, iterations=1)
     test_lap.go()

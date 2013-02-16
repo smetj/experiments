@@ -83,8 +83,8 @@ class CustomGearmanWorker(gearman.GearmanWorker):
 class setupWorker():
 
     def __init__(self):        
-        #self.worker=CustomGearmanWorker(['besrvuc-nag02.ttg.global:4730'],max_jobs=1)
-        self.worker=gearman.GearmanWorker(['besrvuc-nag02.ttg.global:4730'])
+        #self.worker=CustomGearmanWorker(['sandbox:4730'],max_jobs=1)
+        self.worker=gearman.GearmanWorker(['sandbox:4730'])
         self.perfdata = GearmanPerfData(secret='Aloh9uibshojeF8oAhyo3eefGu5ohr3iDeek4ehamaM9eisoas6OoveiareQuo0i')
         self.worker.register_task('perfdata', self.perfdata.getData)
         

@@ -1,15 +1,15 @@
 {
    "system":{
-      "metrics":false,
+      "metrics":true,
       "metrics_interval":10,
-      "metrics_dst":"logging"
+      "metrics_dst":"table"
    },
    "bootstrap":{
       "broker":{
          "module":"wishbone.iomodules.broker",
          "class":"Broker",
          "variables":{
-            "host":"localhost",
+            "host":"sandbox",
             "vhost":"/",
             "username":"guest",
             "password":"guest",
@@ -19,22 +19,17 @@
             "delivery_mode":2
          }
       },
-      "loadmongo":{
-        "module":"loadmongo",
-        "class":"LoadMongo",
-        "variables":{
-          "host":"localhost",
-          "db":"mongotails",
-          "collection":"input",
-          "capped":true,
-          "max":100000,
-          "size":100000
-        }
+      "stdout":{
+         "module":"wishbone.modules.stdout",
+         "class":"STDOUT",
+         "variables":{
+            "purge":true
+         }
       }
    },
    "routingtable":{
       "broker.inbox":[
-         "loadmongo.outbox"
+         "stdout.inbox"
       ]
    }
 }

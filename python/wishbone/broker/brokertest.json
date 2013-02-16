@@ -1,6 +1,6 @@
 {
    "system":{
-      "metrics":false,
+      "metrics":true,
       "metrics_interval":10,
       "metrics_dst":"logging"
    },
@@ -24,7 +24,7 @@
          "class":"BrokerHeader",
          "variables":{
             "key":"wishbone",
-            "exchange":""
+            "exchange":"syslog"
          }
       },
       "dump":{

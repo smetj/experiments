@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  main.py
+#  rabbitmq2mongodb.py
 #  
 #  Copyright 2013 Jelle Smet <development@smetj.net>
 #  
@@ -25,7 +25,7 @@
 from wishbone.server import BootStrap
 
 if __name__ == '__main__':
-	BootStrap(name="MongoTails",
-        description="Experiments with MongoDB tailing cursors on a capped collection.",
+	BootStrap(name="RabbitMQ2MongoDB",
+        description="Load RabbitMQ documents into MongoDB.",
         version="0.1",
         author="Jelle Smet")
