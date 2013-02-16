@@ -1,13 +1,18 @@
 {
    "system":{
-      "metrics":true,
-      "metrics_interval":1,
-      "metrics_dst":"table"
+   },
+   "metrics":{
+      "enable":true,
+      "group":"wishbone.metrics",
+      "module":"Log",
+      "interval":5,
+      "variables":{
+      }
    },
    "bootstrap":{
-      "logs_broker":{
-         "module":"wishbone.iomodules.broker",
-         "class":"Broker",
+      "logs":{
+         "group":"wishbone.iomodule",
+         "module":"Broker",
          "variables":{
             "host":"localhost",
             "vhost":"/",
@@ -19,17 +24,17 @@
             "delivery_mode":2
          }
       },
-      "logs_validate":{
-         "module":"wishbone.modules.jsonvalidator",
-         "class":"JSONValidator",
+      "log_validate":{
+         "group":"wishbone.module",
+         "module":"JSONValidator",
          "variables":{
             "schema":false,
             "convert":true
          }
       },
-      "logs_mongodb":{
-        "module":"wishbone.iomodules.mongodb",
-        "class":"MongoDB",
+      "log_mongodb":{
+        "group":"wishbone.iomodule",
+        "module":"MongoDB",
         "variables":{
           "host":"localhost",
           "db":"mongotails",
@@ -37,17 +42,16 @@
           "capped":true,
           "max":1000000,
           "size":1000000,
-          "drop_db":false,
-          "dateconversions":["@timestamp"]
+          "drop_db":false
         }
       }
    },
    "routingtable":{
-      "logs_broker.inbox":[
-        "logs_validate.inbox"
+      "logs.inbox":[
+        "log_validate.inbox"
       ],
-      "logs_validate.outbox":[
-        "logs_mongodb.outbox"
+      "log_validate.outbox":[
+        "log_mongodb.outbox"
       ]
    }
 }
