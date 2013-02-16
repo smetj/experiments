@@ -14,7 +14,9 @@
          "group":"wishbone.iomodule",
          "module":"DictGenerator",
          "variables":{
-             "filename":"brit-a-z.txt"
+             "filename":"/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt",
+             "randomize_keys":false,
+             "max_elements":10
          }
       },
     "mongodb":{

@@ -14,12 +14,14 @@
          "group":"wishbone.iomodule",
          "module":"DictGenerator",
          "variables":{
-             "filename":"brit-a-z.txt"
+             "filename":"brit-a-z.txt",
+             "randomize_keys":false,
+             "max_elements":10
          }
       },
       "stdout":{
          "group":"wishbone.module",
-         "module":"Null",
+         "module":"STDOUT",
          "variables":{
          }
       }
