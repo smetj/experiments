@@ -38,8 +38,8 @@
       "module":"MongoTailCursor",
       "variables":{
         "host":"localhost",
-        "db":"mongotails",
-        "collection":"input"
+        "db":"pyseps",
+        "collection":"randomdicts"
       }
     }
   },

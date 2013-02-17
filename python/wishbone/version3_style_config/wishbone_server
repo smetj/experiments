@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  brokertest
+#  wishbone_server
 #  
 #  Copyright 2012 Jelle Smet <development@smetj.net>
 #  
@@ -25,9 +25,8 @@
 from wishbone.server import BootStrap
 
 if __name__ == '__main__':
-	BootStrap(name="BrokerTest",
+	BootStrap(name="WishboneServer",
             description="A test Wishbone setup v0.3",
             version="0.1",
             author="Jelle Smet",
-            support="https://groups.google.com/forum/?fromgroups=#!forum/python-wishbone"
         )

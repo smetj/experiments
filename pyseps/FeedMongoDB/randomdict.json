@@ -4,7 +4,7 @@
    "metrics":{
       "enable":true,
       "group":"wishbone.metrics",
-      "module":"Log",
+      "module":"Table",
       "interval":1,
       "variables":{
       }
@@ -19,23 +19,28 @@
              "max_elements":10
          }
       },
-    "mongodb":{
+      "buffer":{
+        "group":"wishbone.module",
+        "module":"TippingBucket",
+        "variables":{
+        }
+      },
+      "mongodb":{
         "group":"wishbone.iomodule",
         "module":"MongoDB",
         "variables":{
           "host":"localhost",
-          "db":"mongotails",
-          "collection":"input",
+          "db":"pyseps",
+          "collection":"randomdicts",
           "capped":true,
           "max":1000000,
-          "size":1000000,
+          "size":10485760,
           "drop_db":false
         }
       }
    },
    "routingtable":{
-      "dictgen.inbox":[
-         "mongodb.outbox"
-      ]
+      "dictgen.inbox":["buffer.inbox"],
+      "buffer.outbox":["mongodb.outbox"]
    }
 }

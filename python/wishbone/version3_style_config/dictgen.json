@@ -21,7 +21,7 @@
       },
       "stdout":{
          "group":"wishbone.module",
-         "module":"STDOUT",
+         "module":"Null",
          "variables":{
          }
       }
