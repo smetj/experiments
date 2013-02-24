@@ -1,5 +1,6 @@
 {
-   "system":{},
+   "system":{
+   },
    "metrics":{
       "enable":true,
       "group":"wishbone.metrics",
@@ -23,16 +24,31 @@
             "delivery_mode":1
          }
       },
-      "null":{
+      "header":{
          "group":"wishbone.module",
-         "module":"Null",
+         "module":"BrokerHeader",
          "variables":{
+            "key":"wishbone",
+            "exchange":""
+         }
+      },
+      "dump":{
+         "group":"wishbone.iomodule",
+         "module":"DumpData",
+         "variables":{
+            "amount":5000
          }
       }
    },
    "routingtable":{
+      "dump.inbox":[
+         "header.inbox"
+      ],
       "broker.inbox":[
-         "null.inbox"
+         "header.inbox"
+      ],
+      "header.outbox":[
+         "broker.outbox"
       ]
    }
 }

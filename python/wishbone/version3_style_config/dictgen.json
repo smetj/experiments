@@ -4,7 +4,7 @@
    "metrics":{
       "enable":true,
       "group":"wishbone.metrics",
-      "module":"Table",
+      "module":"Log",
       "interval":1,
       "variables":{
       }
