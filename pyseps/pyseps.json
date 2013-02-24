@@ -2,10 +2,10 @@
   "system":{
   },
   "metrics":{
-      "enable":true,
+      "enable":false,
       "group":"wishbone.metrics",
-      "module":"Table",
-      "interval":5,
+      "module":"Log",
+      "interval":1,
       "variables":{
       }
    },
@@ -33,9 +33,9 @@
             "convert":true
          }
     },
-    "logs_tail":{
+    "cursors":{
       "group":"pyseps.module",
-      "module":"MongoTailCursor",
+      "module":"TailingCursor",
       "variables":{
         "host":"localhost",
         "db":"pyseps",
@@ -44,17 +44,9 @@
     }
   },
   "routingtable":{
-    "queries.inbox":[
-      "queries_validate.inbox"
-    ],
-    "queries_validate.outbox":[
-      "logs_tail.queries"
-    ],
-    "logs_tail.acknowledge":[
-      "queries.acknowledge"
-    ],
-    "logs_tail.inbox":[
-      "queries.outbox"
-    ]
+    "queries.inbox":["queries_validate.inbox"],
+    "queries_validate.outbox":["cursors.queries"],
+    "cursors.acknowledge":["queries.acknowledge"],
+    "cursors.inbox":["queries.outbox"]
   }
 }
