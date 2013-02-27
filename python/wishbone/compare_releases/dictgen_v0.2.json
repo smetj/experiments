@@ -1,0 +1,29 @@
+{
+   "system":{
+      "metrics":true,
+      "metrics_interval":1,
+      "metrics_dst":"table"
+   },
+   "bootstrap":{
+      "dictgen":{
+         "module":"wb_dictgenerator",
+         "class":"DictGenerator",
+         "variables":{
+             "filename":"brit-a-z.txt",
+             "randomize_keys":false,
+             "max_elements":10
+         }
+      },
+      "null":{
+         "module":"wb_null",
+         "class":"Null",
+         "variables":{
+         }
+      }
+   },
+   "routingtable":{
+      "dictgen.inbox":[
+         "null.inbox"
+      ]
+   }
+}
