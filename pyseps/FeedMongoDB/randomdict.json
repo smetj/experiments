@@ -1,46 +1,46 @@
 {
-   "system":{
-   },
-   "metrics":{
-      "enable":true,
-      "group":"wishbone.metrics",
-      "module":"Table",
-      "interval":1,
-      "variables":{
+  "bootstrap": {
+    "buffer": {
+      "group": "wishbone.module", 
+      "module": "TippingBucket", 
+      "variables": {}
+    }, 
+    "dictgen": {
+      "group": "wishbone.iomodule", 
+      "module": "DictGenerator", 
+      "variables": {
+        "filename": "/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt", 
+        "max_elements": 10, 
+        "randomize_keys": false
       }
-   },
-   "bootstrap":{
-      "dictgen":{
-         "group":"wishbone.iomodule",
-         "module":"DictGenerator",
-         "variables":{
-             "filename":"/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt",
-             "randomize_keys":false,
-             "max_elements":10
-         }
-      },
-      "buffer":{
-        "group":"wishbone.module",
-        "module":"TippingBucket",
-        "variables":{
-        }
-      },
-      "mongodb":{
-        "group":"wishbone.iomodule",
-        "module":"MongoDB",
-        "variables":{
-          "host":"localhost",
-          "db":"pyseps",
-          "collection":"randomdicts",
-          "capped":true,
-          "max":1000000,
-          "size":10485760,
-          "drop_db":false
-        }
+    }, 
+    "mongodb": {
+      "group": "wishbone.iomodule", 
+      "module": "MongoDB", 
+      "variables": {
+        "capped": true, 
+        "collection": "randomdicts", 
+        "db": "pyseps", 
+        "drop_db": false, 
+        "host": "localhost", 
+        "max": 1000000, 
+        "size": 10485760
       }
-   },
-   "routingtable":{
-      "dictgen.inbox":["buffer.inbox"],
-      "buffer.outbox":["mongodb.outbox"]
-   }
+    }
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 1, 
+    "module": "Table", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "buffer.outbox": [
+      "mongodb.outbox"
+    ], 
+    "dictgen.inbox": [
+      "buffer.inbox"
+    ]
+  }
 }

@@ -1,32 +1,30 @@
 {
-  "system":{
-  },
-  "metrics":{
-    "enable":true,
-    "interval":1,
-    "group":"wishbone.metrics",
-    "module":"Log",
-    "variables":{
-    }
-  },
-  "bootstrap":{
-    "udsserver":{
-      "group":"wishbone.iomodule",
-      "module":"UDSServer",
-      "variables":{
-        "pool":false,
-        "path":"/tmp/udsserver",
-        "delimiter":"\n"
-      }
-    },
-    "stdout":{
-      "group":"wishbone.module",
-      "module":"Null",
-      "variables":{
+  "bootstrap": {
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "Null", 
+      "variables": {}
+    }, 
+    "udsserver": {
+      "group": "wishbone.iomodule", 
+      "module": "UDSServer", 
+      "variables": {
+        "delimiter": "\n", 
+        "path": "/tmp/udsserver", 
+        "pool": false
       }
     }
-  },
-  "routingtable":{
-    "udsserver.inbox":["stdout.inbox"]
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 1, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "udsserver.inbox": [
+      "stdout.inbox"
+    ]
   }
 }

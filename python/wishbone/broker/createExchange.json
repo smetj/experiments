@@ -1,50 +1,51 @@
 {
-   "system":{
-   },
-   "metrics":{
-      "enable":false,
-      "group":"wishbone.metrics",
-      "module":"Log",
-      "interval":1,
-      "variables":{
+  "bootstrap": {
+    "dictgen": {
+      "group": "wishbone.iomodule", 
+      "module": "DictGenerator", 
+      "variables": {
+        "filename": "/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt", 
+        "max_elements": 10, 
+        "randomize_keys": false, 
+        "sleep": 0
       }
-   },
-   "bootstrap":{
-      "dictgen":{
-         "group":"wishbone.iomodule",
-         "module":"DictGenerator",
-         "variables":{
-             "filename":"/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt",
-             "randomize_keys":false,
-             "max_elements":10,
-             "sleep":0
-         }
-      },
-      "header":{
-        "group":"wishbone.module",
-        "module":"BrokerHeader",
-        "variables":{
-            "exchange":"x",
-            "key":"wishbone"
-        }
-      },            
-      "rabbit":{
-        "group":"wishbone.iomodule",
-        "module":"Broker",
-        "variables":{
-            "host":"sandbox",
-            "vhost":"/",
-            "username":"guest",
-            "password":"guest",
-            "consume_queue":false,
-            "prefetch_count":200,
-            "no_ack":true,
-            "delivery_mode":2
-        }
+    }, 
+    "header": {
+      "group": "wishbone.module", 
+      "module": "BrokerHeader", 
+      "variables": {
+        "exchange": "x", 
+        "key": "wishbone"
       }
-   },
-   "routingtable":{
-      "dictgen.inbox":["header.inbox"],
-      "header.outbox":["rabbit.outbox"]
-   }
+    }, 
+    "rabbit": {
+      "group": "wishbone.iomodule", 
+      "module": "Broker", 
+      "variables": {
+        "consume_queue": false, 
+        "delivery_mode": 2, 
+        "host": "sandbox", 
+        "no_ack": true, 
+        "password": "guest", 
+        "prefetch_count": 200, 
+        "username": "guest", 
+        "vhost": "/"
+      }
+    }
+  }, 
+  "metrics": {
+    "enable": false, 
+    "group": "wishbone.metrics", 
+    "interval": 1, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "dictgen.inbox": [
+      "header.inbox"
+    ], 
+    "header.outbox": [
+      "rabbit.outbox"
+    ]
+  }
 }

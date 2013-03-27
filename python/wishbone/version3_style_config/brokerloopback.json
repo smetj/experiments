@@ -1,54 +1,51 @@
 {
-   "system":{
-   },
-   "metrics":{
-      "enable":true,
-      "group":"wishbone.metrics",
-      "module":"Log",
-      "interval":1,
-      "variables":{
+  "bootstrap": {
+    "broker": {
+      "group": "wishbone.iomodule", 
+      "module": "Broker", 
+      "variables": {
+        "consume_queue": "wishbone", 
+        "delivery_mode": 1, 
+        "host": "sandbox", 
+        "no_ack": true, 
+        "password": "guest", 
+        "prefetch_count": 200, 
+        "username": "guest", 
+        "vhost": "/"
       }
-   },
-   "bootstrap":{
-      "broker":{
-         "group":"wishbone.iomodule",
-         "module":"Broker",
-         "variables":{
-            "host":"sandbox",
-            "vhost":"/",
-            "username":"guest",
-            "password":"guest",
-            "consume_queue":"wishbone",
-            "prefetch_count":200,
-            "no_ack":true,
-            "delivery_mode":1
-         }
-      },
-      "header":{
-         "group":"wishbone.module",
-         "module":"BrokerHeader",
-         "variables":{
-            "key":"wishbone",
-            "exchange":""
-         }
-      },
-      "dump":{
-         "group":"wishbone.iomodule",
-         "module":"DumpData",
-         "variables":{
-            "amount":5000
-         }
+    }, 
+    "dump": {
+      "group": "wishbone.iomodule", 
+      "module": "DumpData", 
+      "variables": {
+        "amount": 5000
       }
-   },
-   "routingtable":{
-      "dump.inbox":[
-         "header.inbox"
-      ],
-      "broker.inbox":[
-         "header.inbox"
-      ],
-      "header.outbox":[
-         "broker.outbox"
-      ]
-   }
+    }, 
+    "header": {
+      "group": "wishbone.module", 
+      "module": "BrokerHeader", 
+      "variables": {
+        "exchange": "", 
+        "key": "wishbone"
+      }
+    }
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 1, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "broker.inbox": [
+      "header.inbox"
+    ], 
+    "dump.inbox": [
+      "header.inbox"
+    ], 
+    "header.outbox": [
+      "broker.outbox"
+    ]
+  }
 }

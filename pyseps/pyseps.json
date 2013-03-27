@@ -1,52 +1,57 @@
 {
-  "system":{
-  },
-  "metrics":{
-      "enable":false,
-      "group":"wishbone.metrics",
-      "module":"Log",
-      "interval":1,
-      "variables":{
+  "bootstrap": {
+    "cursors": {
+      "group": "pyseps.module", 
+      "module": "TailingCursor", 
+      "variables": {
+        "collection": "randomdicts", 
+        "db": "pyseps", 
+        "host": "localhost"
       }
-   },
-  "bootstrap":{
-    "queries":{
-       "group":"wishbone.iomodule",
-       "module":"Broker",
-       "variables":{
-          "host":"localhost",
-          "vhost":"/",
-          "username":"guest",
-          "password":"guest",
-          "consume_queue":"pyseps:queries",
-          "prefetch_count":1,
-          "no_ack":false,
-          "delivery_mode":2,
-          "auto_create":true
-       }
-    },
-    "queries_validate":{
-         "group":"wishbone.module",
-         "module":"JSONValidator",
-         "variables":{
-            "schema":false,
-            "convert":true
-         }
-    },
-    "cursors":{
-      "group":"pyseps.module",
-      "module":"TailingCursor",
-      "variables":{
-        "host":"localhost",
-        "db":"pyseps",
-        "collection":"randomdicts"
+    }, 
+    "queries": {
+      "group": "wishbone.iomodule", 
+      "module": "Broker", 
+      "variables": {
+        "auto_create": true, 
+        "consume_queue": "pyseps:queries", 
+        "delivery_mode": 2, 
+        "host": "localhost", 
+        "no_ack": false, 
+        "password": "guest", 
+        "prefetch_count": 1, 
+        "username": "guest", 
+        "vhost": "/"
+      }
+    }, 
+    "queries_validate": {
+      "group": "wishbone.module", 
+      "module": "JSONValidator", 
+      "variables": {
+        "convert": true, 
+        "schema": false
       }
     }
-  },
-  "routingtable":{
-    "queries.inbox":["queries_validate.inbox"],
-    "queries_validate.outbox":["cursors.queries"],
-    "cursors.acknowledge":["queries.acknowledge"],
-    "cursors.inbox":["queries.outbox"]
+  }, 
+  "metrics": {
+    "enable": false, 
+    "group": "wishbone.metrics", 
+    "interval": 1, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "cursors.acknowledge": [
+      "queries.acknowledge"
+    ], 
+    "cursors.inbox": [
+      "queries.outbox"
+    ], 
+    "queries.inbox": [
+      "queries_validate.inbox"
+    ], 
+    "queries_validate.outbox": [
+      "cursors.queries"
+    ]
   }
 }
