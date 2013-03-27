@@ -1,59 +1,61 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "udpserver":{
-      "module":"wishbone.iomodules.udpserver",
-      "class":"UDPServer",
-      "variables":{
-        "port":8649
+  "bootstrap": {
+    "buffer": {
+      "group": "wishbone.module", 
+      "module": "TippingBucket", 
+      "variables": {
+        "age": 10, 
+        "size": 10000
       }
-    },
-    "ganglia":{
-      "module":"metricfactory.decoders.decodeganglia",
-      "class":"DecodeGanglia",
-      "variables":{
-
+    }, 
+    "encodegraphite": {
+      "group": "metricfactory.encoder", 
+      "module": "EncodeGraphite", 
+      "variables": {
+        "prefix": "stats"
       }
-    },
-    "encodegraphite":{
-        "module":"metricfactory.encoders.encodegraphite",
-        "class":"EncodeGraphite",
-        "variables":{
-	  "prefix":"stats"
-        }
-    },
-    "buffer":{
-      "module":"wishbone.modules.tippingbucket",
-      "class":"TippingBucket",
-      "variables":{
-        "age":10,
-        "size":10000
+    }, 
+    "ganglia": {
+      "group": "metricfactory.decoder", 
+      "module": "DecodeGanglia", 
+      "variables": {}
+    }, 
+    "tcpclient": {
+      "group": "wishbone.iomodule", 
+      "module": "TCPClient", 
+      "variables": {
+        "pool": [
+          "graphite-001:2003"
+        ]
       }
-    },
-    "tcpclient":{
-      "module":"wishbone.iomodules.tcpclient",
-      "class":"TCPClient",
-      "variables":{
-        "pool":["graphite-001:2003"]
+    }, 
+    "udpserver": {
+      "group": "wishbone.iomodule", 
+      "module": "UDPServer", 
+      "variables": {
+        "port": 8649
       }
     }
-  },
-  "routingtable":{
-    "udpserver.inbox":[
-      "ganglia.inbox"
-    ],
-    "ganglia.outbox":[
-      "encodegraphite.inbox"
-    ],
-    "encodegraphite.outbox":[
-      "buffer.inbox"
-    ],
-    "buffer.outbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "buffer.outbox": [
       "tcpclient.inbox"
+    ], 
+    "encodegraphite.outbox": [
+      "buffer.inbox"
+    ], 
+    "ganglia.outbox": [
+      "encodegraphite.inbox"
+    ], 
+    "udpserver.inbox": [
+      "ganglia.inbox"
     ]
   }
 }

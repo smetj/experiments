@@ -1,29 +1,30 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "udpserver":{
-      "module":"wishbone.iomodules.udpserver",
-      "class":"UDPServer",
-      "variables":{
-        "port":8649
+  "bootstrap": {
+    "udpserver": {
+      "group": "wishbone.iomodule", 
+      "module": "UDPServer", 
+      "variables": {
+        "port": 8649
       }
-    },
-    "udsclient":{
-      "module":"wishbone.iomodules.udsclient",
-      "class":"UDSClient",
-      "variables":{
-	"pool":true,
-	"path":"/tmp/socket_pool"
-
+    }, 
+    "udsclient": {
+      "group": "wishbone.iomodule", 
+      "module": "UDSClient", 
+      "variables": {
+        "path": "/tmp/socket_pool", 
+        "pool": true
       }
     }
-  },
-  "routingtable":{
-    "udpserver.inbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "udpserver.inbox": [
       "udsclient.inbox"
     ]
   }

@@ -1,22 +1,29 @@
 {
-  "bootstrap":{
-    "namedpipeserver":{
-      "module":"wishbone.iomodules.namedpipeserver",
-      "class":"NamedPipeServer",
-      "variables":{
-        "path":"/tmp/namedpipeserver"
+  "bootstrap": {
+    "namedpipeserver": {
+      "group": "wishbone.iomodule", 
+      "module": "NamedPipeServer", 
+      "variables": {
+        "path": "/tmp/namedpipeserver"
       }
-    },
-    "stdout":{
-      "module":"wishbone.modules.stdout",
-      "class":"STDOUT",
-      "variables":{
-        "purge":true
+    }, 
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "STDOUT", 
+      "variables": {
+        "purge": true
       }
     }
-  },
-  "routingtable":{
-    "namedpipeserver.inbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "namedpipeserver.inbox": [
       "stdout.inbox"
     ]
   }

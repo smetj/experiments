@@ -1,49 +1,49 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "udpserver":{
-      "module":"wishbone.iomodules.udpserver",
-      "class":"UDPServer",
-      "variables":{
-        "port":8649
+  "bootstrap": {
+    "ganglia": {
+      "group": "metricfactory.decoder", 
+      "module": "DecodeGanglia", 
+      "variables": {}
+    }, 
+    "graphite": {
+      "group": "metricfactory.encoder", 
+      "module": "EncodeGraphite", 
+      "variables": {
+        "prefix": "systems"
       }
-    },
-    "ganglia":{
-      "module":"metricfactory.decoders.decodeganglia",
-      "class":"DecodeGanglia",
-      "variables":{
-
+    }, 
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "STDOUT", 
+      "variables": {
+        "counter": false, 
+        "purge": true
       }
-    },
-    "graphite":{
-      "module":"metricfactory.encoders.encodegraphite",
-      "class":"EncodeGraphite",
-      "variables":{
-        "prefix":"systems"
-        }
-    },
-    "stdout":{
-      "module":"wishbone.modules.stdout",
-      "class":"STDOUT",
-      "variables":{
-        "purge":true,
-        "counter":false
+    }, 
+    "udpserver": {
+      "group": "wishbone.iomodule", 
+      "module": "UDPServer", 
+      "variables": {
+        "port": 8649
       }
     }
-  },
-  "routingtable":{
-    "udpserver.inbox":[
-      "ganglia.inbox"
-    ],
-    "ganglia.outbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "ganglia.outbox": [
       "graphite.inbox"
-    ],
-    "graphite.outbox":[
+    ], 
+    "graphite.outbox": [
       "stdout.inbox"
+    ], 
+    "udpserver.inbox": [
+      "ganglia.inbox"
     ]
   }
 }

@@ -1,30 +1,31 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "udpsocket":{
-      "module":"wishbone.iomodules.udpserver",
-      "class":"UDPServer",
-      "variables":{
-        "port":8649
+  "bootstrap": {
+    "domainsocketwrite": {
+      "group": "wishbone.iomodule", 
+      "module": "UDSClient", 
+      "variables": {
+        "path": "/tmp/metricfactory", 
+        "pool": true
       }
-    },
-    "domainsocketwrite":{
-      "module":"wishbone.iomodules.udsclient",
-      "class":"UDSClient",
-      "variables":{
-        "pool":true,
-        "path":"/tmp/metricfactory"
+    }, 
+    "udpsocket": {
+      "group": "wishbone.iomodule", 
+      "module": "UDPServer", 
+      "variables": {
+        "port": 8649
       }
     }
-  },
-  "routingtable":{
-    "udpsocket.inbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "udpsocket.inbox": [
       "domainsocketwrite.inbox"
     ]
   }
 }
-

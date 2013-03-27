@@ -1,38 +1,38 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "udpserver":{
-      "module":"wishbone.iomodules.udpserver",
-      "class":"UDPServer",
-      "variables":{
-        "port":8649
+  "bootstrap": {
+    "ganglia": {
+      "group": "metricfactory.decoder", 
+      "module": "DecodeGanglia", 
+      "variables": {}
+    }, 
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "STDOUT", 
+      "variables": {
+        "purge": true
       }
-    },
-    "ganglia":{
-      "module":"metricfactory.decoders.decodeganglia",
-      "class":"DecodeGanglia",
-      "variables":{
-
-      }
-    },
-    "stdout":{
-      "module":"wishbone.modules.stdout",
-      "class":"STDOUT",
-      "variables":{
-        "purge":true
+    }, 
+    "udpserver": {
+      "group": "wishbone.iomodule", 
+      "module": "UDPServer", 
+      "variables": {
+        "port": 8649
       }
     }
-  },
-  "routingtable":{
-    "udpserver.inbox":[
-      "ganglia.inbox"
-    ],
-    "ganglia.outbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "ganglia.outbox": [
       "stdout.inbox"
+    ], 
+    "udpserver.inbox": [
+      "ganglia.inbox"
     ]
   }
 }

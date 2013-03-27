@@ -1,33 +1,35 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "modgearman":{
-      "module":"wishbone.iomodules.modgearman",
-      "class":"ModGearman",
-      "variables":{
-        "hostnames":[
-          "host1",
-          "host2",
+  "bootstrap": {
+    "modgearman": {
+      "group": "wishbone.iomodule", 
+      "module": "ModGearman", 
+      "variables": {
+        "hostnames": [
+          "host1", 
+          "host2", 
           "host3"
-        ],
-        "secret":"xxxxxxxxxxxxxxxx",
-        "workers":10
+        ], 
+        "secret": "xxxxxxxxxxxxxxxx", 
+        "workers": 10
       }
-    },
-    "stdout":{
-      "module":"wishbone.modules.stdout",
-      "class":"STDOUT",
-      "variables":{
-        "purge":true
+    }, 
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "STDOUT", 
+      "variables": {
+        "purge": true
       }
     }
-  },
-  "routingtable":{
-    "modgearman.inbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "modgearman.inbox": [
       "stdout.inbox"
     ]
   }

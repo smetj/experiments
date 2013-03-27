@@ -1,60 +1,62 @@
 {
-  "system":{
-    "metrics":false,
-    "metrics_interval":10,
-    "metrics_dst":"logging"
-  },
-  "bootstrap":{
-    "domainsocket":{
-      "module":"wishbone.iomodules.udsserver",
-      "class":"UDSServer",
-      "variables":{
-        "pool":true,
-        "path":"/tmp/metricfactory"
+  "bootstrap": {
+    "buffer": {
+      "group": "wishbone.module", 
+      "module": "TippingBucket", 
+      "variables": {
+        "age": 10, 
+        "size": 10000
       }
-    },
-    "ganglia":{
-      "module":"metricfactory.decoders.decodeganglia",
-      "class":"DecodeGanglia",
-      "variables":{
-
+    }, 
+    "domainsocket": {
+      "group": "wishbone.iomodule", 
+      "module": "UDSServer", 
+      "variables": {
+        "path": "/tmp/metricfactory", 
+        "pool": true
       }
-    },
-    "graphite":{
-      "module":"metricfactory.encoders.encodegraphite",
-      "class":"EncodeGraphite",
-      "variables":{
-        "prefix":"systems"
-        }
-    },
-    "buffer":{
-      "module":"wishbone.modules.tippingbucket",
-      "class":"TippingBucket",
-      "variables":{
-        "age":10,
-        "size":10000
-      }    
-    },
-    "tcpclient":{
-      "module":"wishbone.iomodules.tcpclient",
-      "class":"TCPClient",
-      "variables":{
-        "pool":["graphite-001:2003"]
+    }, 
+    "ganglia": {
+      "group": "metricfactory.decoder", 
+      "module": "DecodeGanglia", 
+      "variables": {}
+    }, 
+    "graphite": {
+      "group": "metricfactory.encoder", 
+      "module": "EncodeGraphite", 
+      "variables": {
+        "prefix": "systems"
+      }
+    }, 
+    "tcpclient": {
+      "group": "wishbone.iomodule", 
+      "module": "TCPClient", 
+      "variables": {
+        "pool": [
+          "graphite-001:2003"
+        ]
       }
     }
-  },
-  "routingtable":{
-    "domainsocket.inbox":[
-      "ganglia.inbox"
-    ],
-    "ganglia.outbox":[
-      "graphite.inbox"
-    ],
-    "graphite.outbox":[
-      "buffer.inbox"
-    ],
-    "buffer.outbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "buffer.outbox": [
       "tcpclient.inbox"
+    ], 
+    "domainsocket.inbox": [
+      "ganglia.inbox"
+    ], 
+    "ganglia.outbox": [
+      "graphite.inbox"
+    ], 
+    "graphite.outbox": [
+      "buffer.inbox"
     ]
   }
 }

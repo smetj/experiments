@@ -1,29 +1,30 @@
 {
-   "system":{
-      "metrics":true,
-      "metrics_interval":1,
-      "metrics_dst":"table"
-   },
-   "bootstrap":{
-      "dictgen":{
-         "module":"wb_dictgenerator",
-         "class":"DictGenerator",
-         "variables":{
-             "filename":"brit-a-z.txt",
-             "randomize_keys":false,
-             "max_elements":10
-         }
-      },
-      "null":{
-         "module":"wb_null",
-         "class":"Null",
-         "variables":{
-         }
+  "bootstrap": {
+    "dictgen": {
+      "group": "wb_dictgenerator", 
+      "module": "DictGenerator", 
+      "variables": {
+        "filename": "brit-a-z.txt", 
+        "max_elements": 10, 
+        "randomize_keys": false
       }
-   },
-   "routingtable":{
-      "dictgen.inbox":[
-         "null.inbox"
-      ]
-   }
+    }, 
+    "null": {
+      "group": "wb_null", 
+      "module": "Null", 
+      "variables": {}
+    }
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "dictgen.inbox": [
+      "null.inbox"
+    ]
+  }
 }

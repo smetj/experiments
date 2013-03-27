@@ -1,22 +1,29 @@
 {
-  "bootstrap":{
-    "udpserver":{
-      "module":"wishbone.iomodules.udpserver",
-      "class":"UDPServer",
-      "variables":{
-        "port":8649
+  "bootstrap": {
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "STDOUT", 
+      "variables": {
+        "purge": true
       }
-    },
-    "stdout":{
-      "module":"wishbone.modules.stdout",
-      "class":"STDOUT",
-      "variables":{
-        "purge":true
+    }, 
+    "udpserver": {
+      "group": "wishbone.iomodule", 
+      "module": "UDPServer", 
+      "variables": {
+        "port": 8649
       }
     }
-  },
-  "routingtable":{
-    "udpserver.inbox":[
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "udpserver.inbox": [
       "stdout.inbox"
     ]
   }
