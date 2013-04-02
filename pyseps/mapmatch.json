@@ -1,0 +1,37 @@
+{
+  "metrics": {
+    "enable": false,
+    "group": "wishbone.metrics",
+    "interval": 1,
+    "module": "Log",
+    "variables": {}
+  },
+  "bootstrap": {
+    "broker": {
+      "group": "wishbone.iomodule",
+      "module": "Broker",
+      "variables": {
+        "auto_create": true,
+        "consume_queue": "logstash",
+        "delivery_mode": 2,
+        "host": "localhost",
+        "no_ack": false,
+        "password": "guest",
+        "prefetch_count": 1,
+        "username": "guest",
+        "vhost": "/"
+      }
+    },
+    "mapmatch": {
+      "group": "pyseps.module",
+      "module": "MapMatch",
+      "variables": {
+        "filename":"rules.json"
+      }
+    }
+  },
+  "routingtable": {
+    "broker.inbox": [ "mapmatch.inbox" ],
+    "mapmatch.broker": [ "broker.outbox" ]
+  }
+}
