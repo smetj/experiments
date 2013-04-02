@@ -7,12 +7,21 @@
     "variables": {}
   },
   "bootstrap": {
+    "dictgen": {
+      "group": "wishbone.iomodule",
+      "module": "DictGenerator",
+      "variables": {
+        "filename": "/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt",
+        "max_elements": 10,
+        "randomize_keys": false
+      }
+    },
     "broker": {
       "group": "wishbone.iomodule",
       "module": "Broker",
       "variables": {
         "auto_create": true,
-        "consume_queue": "logstash",
+        "consume_queue": false,
         "delivery_mode": 2,
         "host": "localhost",
         "no_ack": false,
@@ -31,7 +40,7 @@
     }
   },
   "routingtable": {
-    "broker.inbox": [ "mapmatch.inbox" ],
+    "dictgen.inbox": [ "mapmatch.inbox"],
     "mapmatch.broker": [ "broker.outbox" ]
   }
 }

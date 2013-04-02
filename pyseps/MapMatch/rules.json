@@ -1,8 +1,8 @@
 {
-"a":{"queue":{"broker":{"broker_key":"a","broker_exchange":""}},"conditions":{"1":"re:a"}},
-"ab":{"queue":{"broker":{"broker_key":"ab","broker_exchange":""}},"conditions":{"1":"re:a","2":"re:b"}},
-"abc":{"queue":{"broker":{"broker_key":"abc","broker_exchange":""}},"conditions":{"1":"re:a","2":"re:b","3":"re:c"}},
-"abcd":{"queue":{"broker":{"broker_key":"abcd","broker_exchange":""}},"conditions":{"1":"re:a","2":"re:b","3":"re:c","4":"re:d"}},
-"abcde":{"queue":{"broker":{"broker_key":"abcde","broker_exchange":""}},"conditions":{"1":"re:a","2":"re:b","3":"re:c","4":"re:d","5":"re:e"}}
+"rule0":{"queue":{"broker":{"broker_key":"rule0","broker_exchange":""}},"conditions":{"1":"re:a"}},
+"rule1":{"queue":{"broker":{"broker_key":"rule1","broker_exchange":""}},"conditions":{"1":"re:b","2":"re:c"}},
+"rule2":{"queue":{"broker":{"broker_key":"rule2","broker_exchange":""}},"conditions":{"1":"re:d","2":"re:e","3":"re:f"}},
+"rule3":{"queue":{"broker":{"broker_key":"rule3","broker_exchange":""}},"conditions":{"1":"re:g","2":"re:h","3":"re:i","4":"re:j"}},
+"rule4":{"queue":{"broker":{"broker_key":"rule4","broker_exchange":""}},"conditions":{"1":"re:k","2":"re:l","3":"re:m","4":"re:n","5":"re:o"}}
 }
 
