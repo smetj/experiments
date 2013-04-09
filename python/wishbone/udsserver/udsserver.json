@@ -2,8 +2,10 @@
   "bootstrap": {
     "stdout": {
       "group": "wishbone.module", 
-      "module": "Null", 
-      "variables": {}
+      "module": "STDOUT", 
+      "variables": {
+	"purge":true
+      }
     }, 
     "udsserver": {
       "group": "wishbone.iomodule", 
