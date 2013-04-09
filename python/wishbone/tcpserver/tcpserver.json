@@ -1,0 +1,29 @@
+{
+  "bootstrap": {
+    "stdout": {
+      "group": "wishbone.module", 
+      "module": "STDOUT", 
+      "variables": {
+	"purge":true
+      }
+    }, 
+    "tcpserver": {
+      "group": "wishbone.iomodule", 
+      "module": "TCPServer", 
+      "variables": {
+        "delimiter": "\n", 
+        "port": 10999
+      }
+    }
+  }, 
+  "metrics": {
+    "enable": true, 
+    "group": "wishbone.metrics", 
+    "interval": 10, 
+    "module": "Log", 
+    "variables": {}
+  }, 
+  "routingtable": {
+    "tcpserver.inbox": [ "stdout.inbox" ]
+  }
+}
