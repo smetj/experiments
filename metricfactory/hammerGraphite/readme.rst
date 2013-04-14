@@ -1,5 +1,5 @@
-Hammer Grahite
-==============
+Hammer Graphite
+===============
 
 Introduction:
 -------------
