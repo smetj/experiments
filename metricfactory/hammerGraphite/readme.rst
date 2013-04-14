@@ -16,7 +16,7 @@ MetricFactory relies on the lastest Wishbone version so best is to install all
 modules from GitHub.
 
 - Download and install Metricfactory from https://github.com/smetj/metricfactory
-- Download and store the Metricfactory bootstrap file.
+- Download the hammer.json bootstrap file from this repo.
 - Download and install the required Wishbone modules from
   https://github.com/smetj/wishboneModules
 
