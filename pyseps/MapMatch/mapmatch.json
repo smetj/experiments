@@ -35,7 +35,6 @@
       "group": "pyseps.module",
       "module": "MapMatch",
       "variables": {
-        "filename":"rules.json"
       }
     }
   },

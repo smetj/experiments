@@ -29,14 +29,14 @@
       "group": "wishbone.module",
       "module": "TippingBucket",
       "variables": {
-        "size": 1000
+        "events": 1000
       }
     },
     "tcpout": {
       "group": "wishbone.iomodule",
       "module": "TCPClient",
       "variables": {
-        "pool": ["graphite-001:2013","graphite-002:2013"]
+        "pool": ["localhost:2013"]
       }
     }
   },
