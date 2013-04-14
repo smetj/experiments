@@ -12,8 +12,13 @@ especially when using sharding or some other distributed setup.
 Installation:
 -------------
 
+MetricFactory relies on the lastest Wishbone version so best is to install all
+modules from GitHub.
+
 - Download and install Metricfactory from https://github.com/smetj/metricfactory
 - Download and store the Metricfactory bootstrap file.
+- Download and install the required Wishbone modules from
+  https://github.com/smetj/wishboneModules
 
 
 Setup:
@@ -38,5 +43,7 @@ This bootstrap file makes use of following modules:
 Usage:
 ------
 
-    $ metricfactory debug --config hammer.json
+Adapt the bootstrap file to your needs and start one or more parallel
+instances:
 
+    $ metricfactory debug --config hammer.json --instances 5
