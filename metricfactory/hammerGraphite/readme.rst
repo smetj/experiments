@@ -22,17 +22,17 @@ Setup:
 This bootstrap file makes use of following modules:
 
 - metricfactory.test.Hammer: Generates random metrics in the MetricFactory
-standard.
+  standard.
 
 - metricfactory.encoder.Graphite: Converts the metrics from
-metricfactory.test.Hammer to Graphite format.
+  metricfactory.test.Hammer to Graphite format.
 
 - wishbone.module.TippingBucket:  Buffers the metrics coming from
-metricfactory.encoder.Graphite until a threshold of X events is reached after
-which the buffer is flushed.
+  metricfactory.encoder.Graphite until a threshold of X events is reached after
+  which the buffer is flushed.
 
 - wishbone.iomodule.TCPClient: Writes the data coming from
-wishbone.module.TippingBucket to a a list of remote TCP sockets.
+  wishbone.module.TippingBucket to a a list of remote TCP sockets.
 
 
 Usage:
