@@ -1,0 +1,11 @@
+---
+condition:
+    "1": re:d
+    "2": re:e
+    "3": re:f
+
+queue:
+    - broker:
+        broker_key: rule2
+        broker_exchange: ""
+...

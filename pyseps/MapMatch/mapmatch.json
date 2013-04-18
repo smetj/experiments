@@ -1,8 +1,8 @@
 {
   "metrics": {
-    "enable": false,
+    "enable": true,
     "group": "wishbone.metrics",
-    "interval": 1,
+    "interval": 2,
     "module": "Log",
     "variables": {}
   },
@@ -11,35 +11,30 @@
       "group": "wishbone.iomodule",
       "module": "DictGenerator",
       "variables": {
-        "filename": "/share/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt",
+        "filename": "/home/smetj/projects/github/experiments/pyseps/FeedMongoDB/brit-a-z.txt",
         "max_elements": 10,
         "randomize_keys": false
-      }
-    },
-    "broker": {
-      "group": "wishbone.iomodule",
-      "module": "Broker",
-      "variables": {
-        "auto_create": true,
-        "consume_queue": false,
-        "delivery_mode": 2,
-        "host": "localhost",
-        "no_ack": false,
-        "password": "guest",
-        "prefetch_count": 1,
-        "username": "guest",
-        "vhost": "/"
       }
     },
     "mapmatch": {
       "group": "pyseps.module",
       "module": "MapMatch",
       "variables": {
+        "ruledir":"/home/smetj/projects/github/experiments/pyseps/MapMatch/rules"
+      }
+    },
+    "stdout": {
+      "group": "wishbone.module",
+      "module": "STDOUT",
+      "variables": {
+	"enable":false,
+        "purge":true,
+	"complete":true
       }
     }
   },
   "routingtable": {
     "dictgen.inbox": [ "mapmatch.inbox"],
-    "mapmatch.broker": [ "broker.outbox" ]
+    "mapmatch.outbox": [ "stdout.inbox" ]
   }
 }
