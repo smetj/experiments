@@ -27,9 +27,9 @@
       "group": "wishbone.module",
       "module": "STDOUT",
       "variables": {
-	"enable":false,
+        "enable":true,
         "purge":true,
-	"complete":true
+	      "complete":true
       }
     }
   },

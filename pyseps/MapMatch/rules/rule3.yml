@@ -6,7 +6,7 @@ condition:
     "4": re:j
 
 queue:
-    - broker:
+    - outbox:
         broker_key: rule3
         broker_exchange: ""
 ...

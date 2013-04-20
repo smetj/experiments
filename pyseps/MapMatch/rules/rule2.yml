@@ -5,7 +5,7 @@ condition:
     "3": re:f
 
 queue:
-    - broker:
+    - outbox:
         broker_key: rule2
         broker_exchange: ""
 ...
