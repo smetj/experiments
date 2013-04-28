@@ -2,7 +2,7 @@
   "metrics": {
     "enable": true,
     "group": "wishbone.metrics",
-    "interval": 10,
+    "interval": 60,
     "module": "Log",
     "variables": {
     }
@@ -12,10 +12,12 @@
       "group": "metricfactory.test",
       "module": "Hammer",
       "variables": {
-        "sleep":"0",
-        "rnd_source":"2",
-        "rnd_name":"1",
-        "rnd_value":"10000"
+        "mode":"random",
+        "total":0,
+        "sleep":0,
+        "host":10,
+        "metric":100,
+        "value":10000000
       }
     },
     "encodegraphite": {
@@ -29,14 +31,15 @@
       "group": "wishbone.module",
       "module": "TippingBucket",
       "variables": {
-        "events": 1000
+        "events": 100,
+        "age": 10
       }
     },
     "tcpout": {
       "group": "wishbone.iomodule",
       "module": "TCPClient",
       "variables": {
-        "pool": ["localhost:2013"]
+        "pool": ["graphite-001:2013"]
       }
     }
   },
