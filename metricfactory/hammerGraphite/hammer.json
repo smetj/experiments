@@ -15,7 +15,7 @@
         "mode":"random",
         "total":0,
         "sleep":0,
-        "host":10,
+        "host":100,
         "metric":100,
         "value":10000000
       }
@@ -31,7 +31,7 @@
       "group": "wishbone.module",
       "module": "TippingBucket",
       "variables": {
-        "events": 100,
+        "events": 1000,
         "age": 10
       }
     },
