@@ -15,7 +15,7 @@
       "variables": {
         "hostnames": [ "your.gearmand.server.hostname" ],
         "secret": "changemechangeme",
-        "workers": 5
+        "workers": 1
       }
     },
     "decodemodgearman": {
@@ -26,7 +26,7 @@
     },
     "encodegraphite": {
       "group": "metricfactory.encoder",
-      "module": "TTGraphite",
+      "module": "Graphite",
       "variables": {
         "prefix":"umi"
       }
@@ -36,14 +36,14 @@
       "module": "TippingBucket",
       "variables": {
         "events": 1000,
-        "age": 60,
+        "age": 60
       }
     },
     "tcpout": {
       "group": "wishbone.iomodule",
       "module": "TCPClient",
       "variables": {
-        "pool": ["your.graphite.relay1:2013","your.graphite.relay2:2013]
+        "pool": ["your.graphite.relay1:2013","your.graphite.relay2:2013"]
       }
     },
     "stdout": {
