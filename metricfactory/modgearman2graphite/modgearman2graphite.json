@@ -28,7 +28,7 @@
       "group": "metricfactory.encoder",
       "module": "Graphite",
       "variables": {
-        "prefix":"umi"
+        "prefix":"nagios"
       }
     },
     "buffer": {
