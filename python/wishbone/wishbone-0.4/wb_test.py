@@ -25,65 +25,48 @@
 
 from wishbone import Actor
 from wishbone.router import Default
-from wishbone.logging import STDOUT as logs_STDOUT
-from wishbone.metrics import Graphite
 from wishbone.tools import Measure
+from wishbone.module import Graphite
+from wishbone.module import Null
+from wishbone.module import LogFormatFilter
+from wishbone.module import STDOUT
+
+
 from gevent import sleep, spawn
 from wb_tcpclient import TCPClient
 from wb_tippingbucket import TippingBucket
+from wb_msgpack import Msgpack
+from wb_udsclient import UDSClient
+from wb_udsserver import UDSServer
 
+from os import getpid
 
-class NumberGenerator(Actor):
-    def __init__(self, name):
-        Actor.__init__(self, name, limit=0)
-        spawn(self.run)
-
-    def consume(self, event):
-        pass
-
-    def run(self):
-        x=0
-        # for x in xrange(10):
-        #     self.queuepool.outbox.put({"header":{},"data":x})
-        while self.loop():
-            try:
-                self.queuepool.outbox.put({"header":{},"data":x})
-                x+=1
-                sleep()
-            except:
-                break
-
-class Null(Actor):
-    def __init__(self, name):
-        Actor.__init__(self, name, limit=0)
-
-    @Measure.runTime
-    def consume(self, event):
-        pass
-        #self.logging.info("Processing event: %s"%(event["data"]))
-        #sleep(2)
-
-numbergenerator=NumberGenerator("Numbergenerator")
-null=Null("Null")
-logging=logs_STDOUT("Logging", debug=False)
-graphite=Graphite("Graphite")
-tcpout=TCPClient("TCPout", pool=["graphite-001:2013"])
-buffer=TippingBucket("buffer", age=10, events=100)
-
+#Create router
 router = Default(interval=1, rescue=False)
 
-router.register(logging)
-router.register(graphite)
-router.register(numbergenerator)
-router.register(null)
-router.register(tcpout)
-router.register(buffer)
+#Register the logging & metric modules
+router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=False)
+router.registerMetricModule((Graphite, "graphite", 0), "inbox")
 
-router.connect(router.logs, logging.queuepool.inbox)
-router.connect(router.metrics, graphite.queuepool.inbox)
-router.connect(graphite.queuepool.outbox, buffer.queuepool.inbox)
-router.connect(buffer.queuepool.outbox,tcpout.queuepool.inbox)
-router.connect(numbergenerator.queuepool.outbox, null.queuepool.inbox)
+#Register all actors
+router.register((STDOUT, "stdout", 0), purge=True)
+router.register((TippingBucket, "buffer", 0), age=10, events=100)
+router.register((TCPClient, "tcpout", 0), pool=["graphite-001:2013"])
+router.register((UDSServer, "udsserver", 0), pool=4000)
+router.register((Msgpack, "msgpack", 0), mode="unpack")
+router.register((Null, "null", 0))
 
+#Logs
+router.connect("logformatfilter.outbox", "stdout.inbox")
+
+#Metrics
+router.connect("graphite.outbox", "buffer.inbox")
+router.connect("buffer.outbox", "tcpout.inbox")
+
+#events
+router.connect("udsserver.inbox", "msgpack.inbox")
+router.connect("msgpack.outbox", "null.inbox")
+
+#Start
 router.start()
 router.block()
