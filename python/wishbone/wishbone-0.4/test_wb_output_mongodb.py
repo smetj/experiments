@@ -2,7 +2,7 @@
 #
 # -*- coding: utf-8 -*-
 #
-#  wb.py
+#  test_wb_input_amqp.py
 #
 #  Copyright 2013 Jelle Smet <development@smetj.net>
 #
@@ -26,47 +26,33 @@
 from wishbone import Actor
 from wishbone.router import Default
 from wishbone.tools import Measure
+
 from wishbone.module import Graphite
 from wishbone.module import Null
 from wishbone.module import LogFormatFilter
 from wishbone.module import STDOUT
-
+from wb_input_dictgenerator import DictGenerator
+from wb_output_tcp import TCP
+from wb_output_mongodb import MongoDB
 
 from gevent import sleep, spawn
-from wb_tcpclient import TCPClient
-from wb_tippingbucket import TippingBucket
-from wb_msgpack import Msgpack
-from wb_udsclient import UDSClient
-from wb_udsserver import UDSServer
 
-from os import getpid
-
-#Create router
-router = Default(interval=1, rescue=False)
-
-#Register the logging & metric modules
-router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=False)
+#Initialize router
+router = Default(interval=1, context_switch=100, rescue=False, uuid=False)
+router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=True)
 router.registerMetricModule((Graphite, "graphite", 0), "inbox")
-
-#Register all actors
-router.register((STDOUT, "stdout", 0), purge=True)
-router.register((TippingBucket, "buffer", 0), age=10, events=100)
-router.register((TCPClient, "tcpout", 0), pool=["graphite-001:2013"])
-router.register((UDSServer, "udsserver", 0), pool=4000)
-router.register((Msgpack, "msgpack", 0), mode="unpack")
+router.register((STDOUT, "stdout", 0))
 router.register((Null, "null", 0))
-
-#Logs
+router.register((TCP, 'graphite_out', 0), host="graphite-001", port=2013, stream=True )
 router.connect("logformatfilter.outbox", "stdout.inbox")
+router.connect("graphite.outbox", "graphite_out.inbox")
 
-#Metrics
-router.connect("graphite.outbox", "buffer.inbox")
-router.connect("buffer.outbox", "tcpout.inbox")
+#Consume events to STDOUT
+router.register((DictGenerator, "dictgenerator", 0), max_elements=10)
+router.register((MongoDB, "mongodb", 0), host="sandbox", capped=True, drop_db=False)
 
-#events
-router.connect("udsserver.inbox", "msgpack.inbox")
-router.connect("msgpack.outbox", "null.inbox")
+router.connect("dictgenerator.outbox", "mongodb.inbox")
 
-#Start
+#start
 router.start()
 router.block()
