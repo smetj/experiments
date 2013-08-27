@@ -30,21 +30,15 @@ from wishbone.module import Null
 from wishbone.module import LogLevelFilter
 from wishbone.module import STDOUT
 from wishbone.module import Header
-from wishbone.module import TestEvent
-from wishbone.module import Fanout
 
 from wb_output_amqp import AMQP
 from wb_input_dictgenerator import DictGenerator
-from gevent import sleep, spawn
 
 #Initialize router
 router = Default(interval=1, rescue=False, uuid=False)
 
 #organize metricstream
 router.registerMetricModule(Null, "null")
-# router.registerMetricModule(Graphite, "graphite")
-# router.registerMetricModule(TCP, "graphite_transport", host=sandbox, port=2013)
-# router.connect("graphite.outbox", "graphite_transport.inbox")
 
 #organize logstream
 router.registerLogModule(LogLevelFilter, "loglevelfilter")
