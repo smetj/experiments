@@ -2,79 +2,69 @@
 #
 # -*- coding: utf-8 -*-
 #
-#  test_wb_input_amqp.py
 #
-#  Copyright 2013 Jelle Smet <development@smetj.net>
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#  MA 02110-1301, USA.
-#
-#
+# Run with wishbone version >= 0.4
 
 from wishbone import Actor
 from wishbone.router import Default
-from wishbone.tools import Measure
 
-from wishbone.module import Graphite
 from wishbone.module import Null
-from wishbone.module import LogFormatFilter
+from wishbone.module import LogLevelFilter
 from wishbone.module import STDOUT
-from wishbone.module import Fanout
-
+from wishbone.module import Graphite
+from wb_output_tcp import TCP
 from wb_input_amqp import AMQP
+from wishbone.errors import QueueFull, QueueLocked
+
+
 from gevent import sleep, spawn
 
-class NumberGenerator(Actor):
-    def __init__(self, name, limit=0):
-        Actor.__init__(self, name, limit=limit)
-        spawn(self.run)
+class Forwarder(Actor):
+    def __init__(self, name):
+        Actor.__init__(self, name, setupbasic=True)
+
+    def consume(self, event):
+        try:
+            #self.logging.info("Received event.")
+            self.queuepool.outbox.put(event)
+        except QueueLocked:
+            self.queuepool.inbox.rescue(event)
+            self.queuepool.inbox.putLock()
+            self.queuepool.outbox.waitUntilPutAllowed()
+            self.queuepool.inbox.putUnlock()
+
+class Output(Actor):
+    def __init__(self, name, size=1000):
+        Actor.__init__(self, name, setupbasic=False)
+        self.createQueue("inbox", size)
+        self.registerConsumer(self.consume, self.queuepool.inbox)
 
     def consume(self, event):
         pass
-
-    def run(self):
-        x=0
-        looper=0
-        while self.loop():
-            try:
-                if looper == 100:
-                    looper=0
-                    sleep()
-                self.queuepool.outbox.put({"header":{'broker_exchange':"", 'broker_key':"test", 'broker_tag':"test"},"data":str(x)})
-                x+=1
-                looper+=1
-            except:
-                break
-
+        #self.logging.info("Received event.")
+        #sleep(0.005)
 
 #Initialize router
 router = Default(interval=1, rescue=False, uuid=False)
-router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=False)
-router.registerMetricModule((Graphite, "graphite", 0), "inbox")
-router.register((STDOUT, "stdout", 0))
-router.register((Null, "null", 0))
-router.connect("logformatfilter.outbox", "stdout.inbox")
-router.connect("graphite.outbox", "null.inbox")
 
-#Consume events to STDOUT
-router.register((AMQP, "broker", 0), host="sandbox", queue="test", no_ack=False)
-router.register((Fanout, "fanout", 0))
-router.register((STDOUT, "events_stdout", 0), complete=True)
-router.connect("broker.outbox", "fanout.inbox")
-router.connect("fanout.one", "events_stdout.inbox")
-router.connect("fanout.two", "broker.acknowledge")
+#Organize log flow
+router.registerLogModule(LogLevelFilter, "loglevelfilter", max_level=7)
+router.register(STDOUT, "stdout")
+router.connect("loglevelfilter.outbox", "stdout.inbox")
+
+#Organize metric flow
+router.registerMetricModule(Null, "null")
+# router.registerMetricModule(Graphite, "graphite")
+# router.register(TCP, "graphite_transport", host="graphite-001", port=2013)
+# router.connect("graphite.outbox", "graphite_transport.inbox")
+
+#Organize data flow
+router.register(AMQP, "amqp", host="localhost", queue="test", prefetch_count=100, no_ack=True)
+router.register(Forwarder, "forwarder")
+router.register(Output, "output")
+
+router.connect("amqp.outbox", "forwarder.inbox")
+router.connect("forwarder.outbox", "output.inbox")
 
 #start
 router.start()
