@@ -2,7 +2,7 @@
 #
 # -*- coding: utf-8 -*-
 #
-#  test_wb_input_amqp.py
+#  test_wb_output_amqp.py
 #
 #  Copyright 2013 Jelle Smet <development@smetj.net>
 #
