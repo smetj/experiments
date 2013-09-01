@@ -21,7 +21,8 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#
+# Use https://github.com/smetj/wishbone/tree/develop
+# Documentation: http://wishbone.readthedocs.org/en/latest/
 
 from wishbone import Actor
 from wishbone.router import Default
