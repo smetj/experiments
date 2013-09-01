@@ -30,15 +30,21 @@ from wishbone.module import Null
 from wishbone.module import LogLevelFilter
 from wishbone.module import STDOUT
 from wishbone.module import Header
+from wishbone.module import TestEvent
+from wishbone.module import Graphite
 
 from wb_output_amqp import AMQP
-from wb_input_dictgenerator import DictGenerator
+from wb_output_tcp import TCP
 
 #Initialize router
-router = Default(interval=1, rescue=False, uuid=False)
+router = Default(interval=1, rescue=False, uuid=False, throttle=True)
 
 #organize metricstream
-router.registerMetricModule(Null, "null")
+#router.registerMetricModule(Null, "null")
+router.registerMetricModule(Graphite, "graphite")
+router.register(TCP, "graphite_transport", host="graphite-001", port=2013)
+router.connect("graphite.outbox", "graphite_transport.inbox")
+
 
 #organize logstream
 router.registerLogModule(LogLevelFilter, "loglevelfilter")
@@ -46,10 +52,10 @@ router.register(STDOUT, "stdout_logs")
 router.connect("loglevelfilter.outbox", "stdout_logs.inbox")
 
 #router.register(TestEvent, "testevent", interval=1)
-router.register(DictGenerator, "testevent", max_elements=10)
+router.register(TestEvent, "testevent", interval=0)
 router.register(Header, "header", header={"amqp":{'broker_exchange':"test", 'broker_key':"test", 'broker_tag':"test"}})
 router.register(STDOUT, "stdout", complete=True)
-router.register(AMQP, "amqp", host="localhost")
+router.register(AMQP, "amqp", host="localhost", )
 
 router.connect("testevent.outbox", "header.inbox")
 router.connect("header.outbox", "amqp.inbox")
