@@ -2,7 +2,7 @@
 #
 # -*- coding: utf-8 -*-
 #
-#  test_wb_output_uds.py
+#  test_wb_output_tcp.py
 #
 #  Copyright 2013 Jelle Smet <development@smetj.net>
 #
@@ -25,53 +25,29 @@
 
 from wishbone import Actor
 from wishbone.router import Default
-from wishbone.tools import Measure
-from wishbone.tools import LoopContextSwitcher
-from wishbone.errors import QueueLocked, QueueFull
 
-from wishbone.module import Graphite
 from wishbone.module import Null
-from wishbone.module import LogFormatFilter
+from wishbone.module import LogLevelFilter
 from wishbone.module import STDOUT
-from wb_output_tcp import TCP
+from wishbone.module import TestEvent
+
 from wb_output_uds import UDS
 
-from gevent import sleep, spawn
-
-#socat -s UNIX-LISTEN:/tmp/blah,fork STDIO|pv -r --line-mode > /dev/null
-
-class XGenerator(Actor, LoopContextSwitcher):
-
-    def __init__(self, name):
-        Actor.__init__(self, name, setupbasic=False)
-        self.createQueue("outbox", max_size=0)
-        spawn(self.generate)
-
-    def generate(self):
-        context_switch_loop = self.getContextSwitcher(100, self.loop)
-        while context_switch_loop.do():
-            try:
-                self.queuepool.outbox.put({"header":{},"data":"X\n"})
-            except QueueLocked, QueueFull:
-                sleep(1)
-
 #Initialize router
-router = Default(interval=1, context_switch=100, rescue=False, uuid=False)
+router = Default(interval=1, rescue=False, uuid=False)
 
-#Organize log flow
-router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=True)
-router.register((STDOUT, "stdout", 0))
-router.connect("logformatfilter.outbox", "stdout.inbox")
+#organize eventstream
+router.registerMetricModule(Null, "null")
 
-#Organize metric flow
-router.registerMetricModule((Graphite, "graphite", 0), "inbox")
-router.register((TCP, 'graphite_out', 0), host="graphite-001", port=2013, stream=True )
-router.connect("graphite.outbox", "graphite_out.inbox")
+#organize logstream
+router.registerLogModule(LogLevelFilter, "loglevelfilter")
+router.register(STDOUT, "stdout_logs")
+router.connect("loglevelfilter.outbox", "stdout_logs.inbox")
 
-#Organize data flow
-router.register((XGenerator, "xgenerator", 0))
-router.register((UDS, "uds", 0), path="/tmp/blah", stream=True, rescue=True )
-router.connect("xgenerator.outbox", "uds.inbox")
+router.register(TestEvent, "testevent")
+router.register(UDS, "uds")
+
+router.connect("testevent.outbox", "uds.inbox")
 
 #start
 router.start()

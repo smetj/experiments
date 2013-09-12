@@ -29,53 +29,31 @@ from wishbone.tools import Measure
 
 from wishbone.module import Graphite
 from wishbone.module import Null
-from wishbone.module import LogFormatFilter
+from wishbone.module import Filter
 from wishbone.module import STDOUT
 from wb_input_dictgenerator import DictGenerator
 from wb_output_tcp import TCP
 
 from gevent import sleep, spawn
 
-class NumberGenerator(Actor):
-    def __init__(self, name, limit=0):
-        Actor.__init__(self, name, limit=limit)
-        spawn(self.run)
-
-    def consume(self, event):
-        pass
-
-    def run(self):
-        x=0
-        looper=0
-        while self.loop():
-            try:
-                if looper == 100:
-                    looper=0
-                    sleep()
-                self.queuepool.outbox.put({"header":{'broker_exchange':"", 'broker_key':"test", 'broker_tag':"test"},"data":str(x)})
-                x+=1
-                looper+=1
-            except:
-                break
-
-
 #Initialize router
 router = Default(interval=1, rescue=False, uuid=False)
-router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=False)
-router.registerMetricModule((Graphite, "graphite", 0), "inbox")
+
+#Organize log flow
+router.registerLogModule((Filter, "filter", 0), max_level=7)
 router.register((STDOUT, "stdout", 0))
-router.register((Null, "null", 0))
+router.connect("filter.outbox", "stdout.inbox")
+
+#Organize metric flow
+router.registerMetricModule((Graphite, "graphite", 0))
 router.register((TCP, 'graphite_out', 0), host="graphite-001", port=2013, stream=True )
-router.connect("logformatfilter.outbox", "stdout.inbox")
 router.connect("graphite.outbox", "graphite_out.inbox")
 
-#Consume events to STDOUT
+#Organize event flow
 router.register((DictGenerator, "dictgenerator", 0), max_elements=10)
 router.register((STDOUT, "stdout_events", 0))
 router.register((Null, "null_events", 0))
-
-
-router.connect("dictgenerator.outbox", "null_events.inbox")
+router.connect("dictgenerator.outbox", "stdout_events.inbox")
 
 
 #start

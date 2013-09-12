@@ -29,7 +29,7 @@ from wishbone.tools import Measure
 
 from wishbone.module import Graphite
 from wishbone.module import Null
-from wishbone.module import LogFormatFilter
+from wishbone.module import LogLevelFilter
 from wishbone.module import STDOUT
 from wb_input_dictgenerator import DictGenerator
 from wb_output_tcp import TCP
@@ -39,18 +39,20 @@ from gevent import sleep, spawn
 
 #Initialize router
 router = Default(interval=1, context_switch=100, rescue=False, uuid=False)
-router.registerLogModule((LogFormatFilter, "logformatfilter", 0), "inbox", debug=True)
-router.registerMetricModule((Graphite, "graphite", 0), "inbox")
-router.register((STDOUT, "stdout", 0))
-router.register((Null, "null", 0))
-router.register((TCP, 'graphite_out', 0), host="graphite-001", port=2013, stream=True )
-router.connect("logformatfilter.outbox", "stdout.inbox")
+
+#organize log flow
+router.registerLogModule(LogLevelFilter, "loglevelfilter")
+router.register(STDOUT, "stdout_logs")
+router.connect("loglevelfilter.outbox", "stdout_logs.inbox")
+
+#organize metric flow
+router.registerMetricModule(Graphite, "graphite")
+router.register(TCP, 'graphite_out', host="graphite-001", port=2013, stream=True )
 router.connect("graphite.outbox", "graphite_out.inbox")
 
-#Consume events to STDOUT
-router.register((DictGenerator, "dictgenerator", 0), max_elements=10)
-router.register((MongoDB, "mongodb", 0), host="sandbox", capped=True, drop_db=False)
-
+#organize event flow
+router.register(DictGenerator, "dictgenerator", max_elements=10, sleep=1)
+router.register(MongoDB, "mongodb", host="sandbox", capped=True, drop_db=False)
 router.connect("dictgenerator.outbox", "mongodb.inbox")
 
 #start

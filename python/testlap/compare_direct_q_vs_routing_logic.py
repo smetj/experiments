@@ -26,7 +26,7 @@ from testlap import TestLap
 import gevent
 
 from gevent import queue
-from gevent import monkey;monkey.patch_all()
+#from gevent import monkey;monkey.patch_all()
 
 class dummyQueue():
     '''Creates an input and output queue and shovels data between them.'''
@@ -80,7 +80,7 @@ class dummyQueue2():
                     #print ("%s Elvis has left the building."%self.instance)
                     pass
                 if message == 'kill':
-                        break                        
+                        break
 
 class WishboneIO():
 
@@ -126,9 +126,9 @@ class WishboneIO():
         gevent.joinall(self.backgrounds)
 
 class RouterIO():
-    
+
     '''A class which orchestrates the IO between modules using 1 queue with routing data.'''
-    
+
     def __init__(self,routing_table={}, jumps=3, messages=10000):
         self.input_queue=queue.Queue()
         self.module_input_queues={}
@@ -138,7 +138,7 @@ class RouterIO():
         self.instances=[]
         self.backgrounds=[]
         self.setup()
-    
+
     def setup(self):
         for instance in range(self.jumps):
             self.instances.append(dummyQueue2(str(instance),router_queue=self.input_queue))
@@ -151,14 +151,14 @@ class RouterIO():
 
     def register(self, name, module_queue):
         self.module_input_queues[name]=module_queue
-    
+
     def buildRouterTable(self, number):
         table={}
         for step in range(number+1):
             table[str(step)]=[str(step+1)]
         return table
-            
-    
+
+
     def do(self):
         while True:
             gevent.sleep(0)
@@ -172,29 +172,29 @@ class RouterIO():
                         self.module_input_queues[route].put(message['data'])
                 else:
                     print "Source %s is not in routing table"%message['source']
-                                    
+
     def go(self):
         for _ in range(self.messages):
             self.module_input_queues['0'].put('x')
         self.module_input_queues['0'].put('kill')
         gevent.joinall(self.backgrounds)
-        
+
 class setupTest():
     '''
     Compare speed of direct queue to queue connections vs. 1 big queue with routing logic.
-    
+
     '''
-    
+
     def __init__(self):
         pass
-    
+
     def test_1(self):
         '''Setup a classic Wisbone style set of 4 connected modules and push 50000 messages through them.'''
-        setup = WishboneIO(jumps=4, messages=50000).go()
-    
+        setup = WishboneIO(jumps=4, messages=500000).go()
+
     def test_2(self):
         '''Use 1 big queue with routing logic for 4 connected modules and push 50000 messages through them.'''
-        setup = RouterIO(jumps=4,messages=50000).go()
+        setup = RouterIO(jumps=4,messages=500000).go()
 
 
 if __name__ == '__main__':
