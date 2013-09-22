@@ -1,0 +1,62 @@
+---
+modules:
+  named_one:
+    module: wishbone.input.namedpipe
+    arguments:
+      path: /tmp/one
+
+  header_one:
+    module: wishbone.builtin.function.header
+    arguments:
+      header:
+        mqtt:
+          topic:
+            test/one
+
+  named_two:
+    module: wishbone.input.namedpipe
+    arguments:
+      path: /tmp/two
+
+  header_two:
+    module: wishbone.builtin.function.header
+    arguments:
+      header:
+        mqtt:
+          topic:
+            test/two
+
+  named_three:
+    module: wishbone.input.namedpipe
+    arguments:
+      path: /tmp/three
+
+  header_three:
+    module: wishbone.builtin.function.header
+    arguments:
+      header:
+        mqtt:
+          topic:
+            test/three
+
+  funnel:
+    module: wishbone.builtin.flow.funnel
+
+  mqtt:
+    module: wishbone.output.mqtt
+    arguments:
+      host: 127.0.0.1
+
+routingtable:
+
+  - named_one.outbox    -> header_one.inbox
+  - header_one.outbox   -> funnel.one
+
+  - named_two.outbox    -> header_two.inbox
+  - header_two.outbox   -> funnel.two
+
+  - named_three.outbox  -> header_three.inbox
+  - header_three.outbox -> funnel.three
+
+  - funnel.outbox       -> mqtt.inbox
+...
