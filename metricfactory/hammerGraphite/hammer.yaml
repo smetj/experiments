@@ -1,0 +1,39 @@
+---
+modules:
+
+    hammer:
+        module: metricfactory.test.hammer
+        arguments:
+            mode: random
+            total: 0
+            sleep: 0
+            host: 100
+            metric: 100
+            value: 10000000
+
+    encodegraphite:
+        module: metricfactory.encoder.graphite
+        arguments:
+            prefix: hammer
+
+    buffer:
+        module: wishbone.builtin.flow.tippingbucket
+        arguments:
+            events: 1000
+            age: 10
+
+    tcp:
+        module: wishbone.output.tcp
+        arguments:
+            host: graphite-001
+            port: 2013
+
+    stdout:
+        module: wishbone.builtin.output.stdout
+
+routingtable:
+
+    - hammer.outbox             -> encodegraphite.inbox
+    - encodegraphite.outbox     -> buffer.inbox
+    - buffer.outbox             -> tcp.inbox
+...
