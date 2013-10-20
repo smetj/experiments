@@ -1,0 +1,25 @@
+---
+modules:
+
+    hammer:
+        module: metricfactory.test.hammer
+        arguments:
+            batch: 1
+            batch_size: 100
+            set_size: 100
+            value: 1000
+
+    encodegraphite:
+        module: wishbone.builtin.metrics.graphite
+
+    tcp:
+        module: wishbone.output.tcp
+        arguments:
+            host: graphite-001
+            port: 2013
+
+routingtable:
+
+    - hammer.outbox             -> encodegraphite.inbox
+    - encodegraphite.outbox     -> tcp.inbox
+...

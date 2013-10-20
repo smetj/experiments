@@ -41,14 +41,13 @@ from wb_output_tcp import TCP
 router = Default(interval=1, rescue=False, uuid=False, throttle=True)
 
 #organize metricstream
-#router.registerMetricModule(Null, "null")
-router.registerMetricModule(Graphite, "graphite")
-router.register(TCP, "graphite_transport", host="graphite-001", port=2013)
-router.connect("graphite.outbox", "graphite_transport.inbox")
-
+router.registerMetricModule(Null, "null")
+#router.registerMetricModule(Graphite, "graphite")
+#router.register(TCP, "graphite_transport", host="graphite-001", port=2013)
+#router.connect("graphite.outbox", "graphite_transport.inbox")
 
 #organize logstream
-router.registerLogModule(LogLevelFilter, "loglevelfilter")
+router.registerLogModule(LogLevelFilter, "loglevelfilter", max_level=7)
 router.register(STDOUT, "stdout_logs")
 router.connect("loglevelfilter.outbox", "stdout_logs.inbox")
 

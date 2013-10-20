@@ -29,7 +29,7 @@ from wishbone.tools import Measure
 
 from wishbone.module import Graphite
 from wishbone.module import Null
-from wishbone.module import Filter
+from wishbone.module import LogLevelFilter
 from wishbone.module import STDOUT
 from wb_input_dictgenerator import DictGenerator
 from wb_output_tcp import TCP
@@ -40,19 +40,18 @@ from gevent import sleep, spawn
 router = Default(interval=1, rescue=False, uuid=False)
 
 #Organize log flow
-router.registerLogModule((Filter, "filter", 0), max_level=7)
-router.register((STDOUT, "stdout", 0))
-router.connect("filter.outbox", "stdout.inbox")
+# router.registerLogModule(LogLevelFilter, "filter")
+# router.register(STDOUT, "stdout")
+# router.connect("filter.outbox", "stdout.inbox")
 
 #Organize metric flow
-router.registerMetricModule((Graphite, "graphite", 0))
-router.register((TCP, 'graphite_out', 0), host="graphite-001", port=2013, stream=True )
-router.connect("graphite.outbox", "graphite_out.inbox")
+# router.registerMetricModule(Graphite, "graphite")
+# router.register(TCP, 'graphite_out', host="graphite-001", port=2013)
+# router.connect("graphite.outbox", "graphite_out.inbox")
 
 #Organize event flow
-router.register((DictGenerator, "dictgenerator", 0), max_elements=10)
-router.register((STDOUT, "stdout_events", 0))
-router.register((Null, "null_events", 0))
+router.register(DictGenerator, "dictgenerator", max_elements=10)
+router.register(STDOUT, "stdout_events")
 router.connect("dictgenerator.outbox", "stdout_events.inbox")
 
 

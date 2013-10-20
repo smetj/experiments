@@ -28,7 +28,9 @@ class Input(Actor):
             self.logging.info("Generated event.")
             try:
                 self.queuepool.outbox.put(event)
-                sleep(0.1
+            except:
+                pass
+            sleep(0.1)
 
 class Forwarder(Actor):
     def __init__(self, name):
