@@ -1,0 +1,22 @@
+---
+
+modules:
+  dictgenerator:
+    module: wishbone.input.dictgenerator
+    arguments:
+      max_elements: 10
+      randomize_keys: false
+  pyseps:
+    module: pyseps.mapmatch
+    arguments:
+      ruledir: rules
+
+  stdout_events:
+    module: wishbone.builtin.output.stdout
+
+routingtable:
+
+#organize event stream
+  - dictgenerator.outbox  -> pyseps.inbox
+  - pyseps.stdout         -> stdout_events.inbox
+...

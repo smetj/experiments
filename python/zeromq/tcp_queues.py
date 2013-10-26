@@ -1,0 +1,86 @@
+#!/usr/bin/env pythoni
+# -*- coding: utf-8 -*-
+#
+#  untitled.py
+#  
+#  Copyright 2013 Jelle Smet <development@smetj.net>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+
+import zmq.green as zmq
+from gevent import Greenlet
+from gevent import sleep
+from gevent import monkey
+from time import time
+monkey.patch_all(time=True)
+
+
+class Actor(Greenlet):
+    '''Context is created inside class'''
+    
+    def __init__(self, name, out,socket):
+        Greenlet.__init__(self)
+        self.name=name
+        self.out=out
+        self.counter=0
+        
+        self.context=zmq.Context()
+                
+        self.inbox=self.context.socket(zmq.SUB)
+        self.inbox.connect("tcp://0.0.0.0:10000")
+        self.inbox.setsockopt(zmq.SUBSCRIBE, name)        
+        
+        self.outbox=socket
+        
+    def _run(self):
+        while True:
+            (topic, data)=self.inbox.recv().split()
+            self.counter+=1
+            data=int(data)
+            #print "%s: %s"%(self.out,data)
+            data+=1            
+            self.outbox.send("%s %s"%(self.out, data))
+
+def main():
+    context=zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind("tcp://0.0.0.0:10000")
+  
+    
+    one=Actor("one","two",socket)
+    two=Actor("two","one",socket)
+    one.start()
+    two.start()
+    sleep(1)
+    
+    socket.send("one 1")
+    
+    prev_c=two.counter
+    prev_t=time()
+    while True:
+        now_c=two.counter
+        now_t=time()
+        print (now_c-prev_c)/(now_t-prev_t)
+        prev_c=now_c
+        prev_t=now_t
+        
+        
+        sleep(1)
+    
+if __name__ == '__main__':
+    main()

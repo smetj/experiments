@@ -15,7 +15,7 @@
         tcp:
             module: wishbone.output.tcp
             arguments:
-                host: graphite-001
+                host: localhost
                 port: 2013
 
     routingtable:

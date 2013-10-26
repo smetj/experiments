@@ -1,0 +1,14 @@
+---
+modules:
+  dictgenerator:
+    module: wishbone.input.dictgenerator
+    arguments:
+      max_elements: 10
+
+  null_events:
+    module: wishbone.builtin.output.null
+
+routingtable:
+  #organize event stream
+  - dictgenerator.outbox  -> null_events.inbox
+...

@@ -7,18 +7,15 @@ modules:
 
     hammer:
         module: metricfactory.test.hammer
-        arguments:
-            mode: sequential
-            total: 0
-            sleep: 0
-            host: 100
-            metric: 100
-            value: 10000
+          arguments:
+            batch: 10
+            batch_size: 100
+            set_size: 100
+            value: 1000
+            sleep: 1
 
     encodegraphite:
-        module: metricfactory.encoder.graphite
-        arguments:
-            prefix: hammer
+        module: wishbone.builtin.metrics.graphite
 
     funnel:
         module: wishbone.builtin.flow.funnel

@@ -1,0 +1,26 @@
+---
+modules:
+  dictgenerator:
+    module: wishbone.input.dictgenerator
+    arguments:
+      max_elements: 10
+      sleep: 0.01
+
+  header:
+    module: wishbone.builtin.function.header
+    arguments:
+      header:
+        elasticsearch:
+          index: test
+          type: test
+
+  elasticsearch:
+    module: wishbone.output.elasticsearch
+    arguments:
+      server: "http://sandbox:9200"
+
+routingtable:
+  #organize event stream
+  - dictgenerator.outbox  -> header.inbox
+  - header.outbox         -> elasticsearch.inbox
+...

@@ -1,0 +1,27 @@
+---
+logs:
+  loglevelfilter:
+    module: wishbone.builtin.logging.loglevelfilter
+    arguments:
+      max_level: 7
+
+modules:
+  input:
+    module: wishbone.input.tcp
+    arguments:
+        port: 2013
+        delimiter: "\n"
+
+  stdout_logs:
+    module: wishbone.builtin.output.stdout
+
+  output:
+    module: wishbone.builtin.output.slow
+    arguments:
+      flush: 10
+
+routingtable:
+  #organize event stream
+  - loglevelfilter.outbox   -> stdout_logs.inbox
+  - input.outbox            -> output.inbox
+...

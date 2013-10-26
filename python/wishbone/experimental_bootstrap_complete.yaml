@@ -1,0 +1,39 @@
+---
+logs:
+  loglevelfilter:
+    module: wishbone.builtin.logging.loglevelfilter
+    arguments:
+      max_level: 6
+
+metrics:
+  graphite:
+    module: wishbone.builtin.metrics.graphite
+
+modules:
+  dictgenerator:
+    module: wishbone.input.dictgenerator
+    arguments:
+      max_elements: 10
+
+  stdout_logs:
+    module: wishbone.builtin.output.stdout
+
+  stdout_events:
+    module: wishbone.builtin.output.stdout
+
+  graphite_server:
+    module: wishbone.output.tcp
+    arguments:
+      host: graphite-001
+      port: 2013
+
+routingtable:
+#Organize log stream
+  - loglevelfilter.outbox -> stdout_logs.inbox
+
+#organize metric stream
+  - graphite.outbox       -> graphite_server.inbox
+
+#organize event stream
+  - dictgenerator.outbox  -> stdout_events.inbox
+...
