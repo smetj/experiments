@@ -1,0 +1,39 @@
+---
+metrics:
+  graphite:
+    module: wishbone.builtin.metrics.graphite
+
+modules:
+
+  graphite_server:
+    module: wishbone.output.tcp
+    arguments:
+      host: graphite-001
+      port: 2013
+
+  input:
+    module: wishbone.input.tcp
+    arguments:
+      port: 10000
+
+  roundrobin:
+    module: wishbone.builtin.flow.roundrobin
+
+  output_1:
+    module: wishbone.output.tcp
+    arguments:
+      port: 20000
+
+  output_2:
+    module: wishbone.output.tcp
+    arguments:
+      port: 20001
+
+routingtable:
+  #metric stream
+  - graphite.outbox         -> graphite_server.inbox
+  #organize event stream
+  - input.outbox            -> roundrobin.inbox
+  - roundrobin.one          -> output_1.inbox
+  - roundrobin.two          -> output_2.inbox
+...
