@@ -2,25 +2,24 @@
 metrics:
   graphite:
     module: wishbone.builtin.metrics.graphite
-    arguments:
-      pid: true
 
 modules:
-  input:
-    module: wishbone.input.tcp
-    arguments:
-      port: 10000
-      delimiter: "\n"
-      reuse_port: true
-
-  output:
-    module: wishbone.builtin.output.null
 
   graphite_server:
     module: wishbone.output.tcp
     arguments:
       host: graphite-001
       port: 2013
+
+  input:
+    module: wishbone.input.tcp
+    arguments:
+      port: 10000
+
+  output:
+    module: wishbone.output.tcp
+    arguments:
+      port: 20000
 
 routingtable:
   #metric stream
