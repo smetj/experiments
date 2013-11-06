@@ -20,8 +20,6 @@ modules:
 
     stdout:
         module: wishbone.builtin.output.stdout
-        arguments:
-            complete: true
 
 routingtable:
 
