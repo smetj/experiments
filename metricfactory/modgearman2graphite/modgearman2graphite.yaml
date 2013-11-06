@@ -1,35 +1,31 @@
 ---
 modules:
     gearmand:
-        module: wishbone.input.gearmand
+        module: wishbone.input.gearman
         arguments:
-            hostnames:
-                - your.gearmand.server.hostname
+            hostlist:
+                - server-001
             secret: changemechangeme
-            workers: 1
+            queue: perfdata
+            workers: 5
 
     decode:
         module: metricfactory.decoder.modgearman
 
     encode:
-        module: metricfactory.encoder.graphite
+        module: wishbone.builtin.metrics.graphite
         arguments:
-            prefix: nagios
+            prefix: nagios.
+            script: false
 
-    buffer:
-        module: wishbone.builtin.flow.tippingbucket
+    stdout:
+        module: wishbone.builtin.output.stdout
         arguments:
-            events: 1000
-            age: 10
-
-    tcp:
-        module: wishbone.output.tcp
-        arguments:
+            complete: true
 
 routingtable:
 
     - gearmand.outbox   -> decode.inbox
     - decode.outbox     -> encode.inbox
-    - encode.inbox      -> buffer.inbox
-    - buffer.outbox     -> tcp.inbox
+    - encode.outbox     -> stdout.inbox
 ...
