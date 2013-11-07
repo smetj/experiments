@@ -21,9 +21,15 @@ modules:
     stdout:
         module: wishbone.builtin.output.stdout
 
+    tcpout:
+        module: wishbone.output.tcp
+        arguments:
+            host: graphite-001
+            port: 2013
+
 routingtable:
 
     - gearmand.outbox   -> decode.inbox
     - decode.outbox     -> encode.inbox
-    - encode.outbox     -> stdout.inbox
+    - encode.outbox     -> tcpout.inbox
 ...
