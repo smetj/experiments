@@ -1,0 +1,37 @@
+---
+modules:
+  httprequest:
+    module: wishbone.input.httprequest
+    arguments:
+      url:
+        - http://rabbitmq:15672/api/nodes
+        - http://rabbitmq:15672/api/queues
+      interval: 1
+      username: guest
+      password: guest
+
+  decode:
+    module: metricfactory.decoder.rabbitmq
+    arguments:
+      source: lhi
+
+  # encode:
+  #   module: wishbone.builtin.metrics.graphite
+  #   arguments:
+  #     prefix: application.elasticsearch.
+  #     script: false
+
+  output_screen:
+    module: wishbone.builtin.output.stdout
+
+  # output_tcp:
+  #   module: wishbone.output.tcp
+  #   arguments:
+  #     host: graphite-001
+  #     port: 2013
+
+routingtable:
+  #organize event stream
+  - httprequest.outbox    -> decode.inbox
+  - decode.outbox         -> output_screen.inbox
+...
