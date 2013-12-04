@@ -33,11 +33,11 @@ http://wishbone.readthedocs.org/en/latest/installation.html
 The total bandwidth consumed:
 -----------------------------
 
-tcp_plain               12.20 MB
-tcp_msgpack              9.67 MB
+    TCP (plain)               12.20 MB
+    TCP (msgpack)              9.67 MB
 
-amqp_plain              26.30 MB
-amqp_msgpack            23.10 MB
+    AMQP (plain)              26.30 MB
+    AMQP (msgpack)            23.10 MB
 
-mqtt_plain              10.60 MB
-mqtt_msgpack             8.05 MB
+    MQTT (plain)              10.60 MB
+    MQTT (msgpack)             8.05 MB
