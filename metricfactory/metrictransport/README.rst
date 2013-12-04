@@ -4,7 +4,26 @@ Measure total data procuded over the wire
 A set of Wishbone bootstrap files which generate 100000 metrics in wishbone
 Format:
 
-Metrics are transport over :
+
+Installation
+------------
+http://wishbone.readthedocs.org/en/latest/installation.html
+
+
+Executing
+---------
+
+Initializing a Wishbone instance using the provided bootstrap files is done by
+executing:
+
+    $ wishbone debug --config wb_mqtt_msgpack.yaml
+
+
+Data
+----
+
+The bootstrap files generate metrics and submit them to the wire using
+following protocols:
 
 - Plain TCP
 - AMQP
@@ -14,24 +33,13 @@ For each protocol metrics are submitted in plain text and in msgpack format.
 
 
 The generated data looks like:
-------------------------------
 
-(1386189062.3558, 'test', 'hammer', 'hammer.set_99.metric_61', 0, '', ())
-
-
-The bootstrap file can executed with:
--------------------------------------
-
-    $ wishbone debug --config wb_mqtt_msgpack.yaml
-
-Installing Wishbone and modules:
---------------------------------
-http://wishbone.readthedocs.org/en/latest/installation.html
+    (1386189062.3558, 'test', 'hammer', 'hammer.set_99.metric_61', 0, '', ())
 
 
 
-The total bandwidth consumed:
------------------------------
+Total bandwidth consumed:
+-------------------------
 
 +------------+------------+-----------+
 |            | plain      | msgpack   |
