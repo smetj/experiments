@@ -52,10 +52,10 @@ router.register(STDOUT, "stdout_logs")
 router.connect("loglevelfilter.outbox", "stdout_logs.inbox")
 
 #router.register(TestEvent, "testevent", interval=1)
-router.register(TestEvent, "testevent", interval=0)
-router.register(Header, "header", header={"amqp":{'broker_exchange':"test", 'broker_key':"test", 'broker_tag':"test"}})
+router.register(TestEvent, "testevent", interval=0.5)
+router.register(Header, "header", key="amqp", header={'broker_exchange':"", 'broker_key':"test", 'broker_tag':"test"})
 router.register(STDOUT, "stdout", complete=True)
-router.register(AMQP, "amqp", host="localhost", )
+router.register(AMQP, "amqp", host="rabbitmq", )
 
 router.connect("testevent.outbox", "header.inbox")
 router.connect("header.outbox", "amqp.inbox")

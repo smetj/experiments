@@ -1,0 +1,35 @@
+---
+modules:
+
+    hammer:
+        module: metricfactory.test.hammer
+        arguments:
+            batch: 10
+            batch_size: 100
+            set_size: 100
+            value: 1
+
+    msgpack:
+        module: wishbone.function.msgpack
+
+    header:
+        module: wishbone.builtin.function.header
+        arguments:
+            key: mqtt
+            header:
+                topic: metric/indigo/metricfactory
+
+
+    mqtt:
+        module: wishbone.output.mqtt
+        arguments:
+            host: rabbitmq
+
+
+routingtable:
+
+    - hammer.outbox             -> msgpack.inbox
+    - msgpack.outbox            -> header.inbox
+    - header.outbox             -> mqtt.inbox
+
+...

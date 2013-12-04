@@ -1,0 +1,44 @@
+---
+metrics:
+  graphite:
+    module: wishbone.builtin.metrics.graphite
+    arguments:
+        script: true
+        prefix: mqtt
+
+modules:
+
+    hammer:
+        module: metricfactory.test.hammer
+        arguments:
+            batch: 10
+            batch_size: 100
+            set_size: 100
+            value: 1
+
+    header:
+        module: wishbone.builtin.function.header
+        arguments:
+            key: mqtt
+            header:
+                topic: metric/indigo/metricfactory
+
+    mqtt:
+        module: wishbone.output.mqtt
+        arguments:
+            host: rabbitmq
+
+    graphite_out:
+        module: wishbone.output.tcp
+        arguments:
+            host: graphite-001
+            port: 2013
+
+routingtable:
+    #metrics
+    - graphite.outbox            -> graphite_out.inbox
+
+    - hammer.outbox             -> header.inbox
+    - header.outbox             -> mqtt.inbox
+
+...

@@ -1,0 +1,34 @@
+---
+modules:
+
+    hammer:
+        module: metricfactory.test.hammer
+        arguments:
+            batch: 10
+            batch_size: 100
+            set_size: 100
+            value: 1
+
+    msgpack:
+        module: wishbone.function.msgpack
+
+    header:
+        module: wishbone.builtin.function.header
+        arguments:
+            key: amqp
+            header:
+                broker_exchange: ""
+                broker_key: blurp
+
+    amqp:
+        module: wishbone.output.amqp
+        arguments:
+            host: rabbitmq
+
+routingtable:
+
+    - hammer.outbox             -> msgpack.inbox
+    - msgpack.outbox            -> header.inbox
+    - header.outbox             -> amqp.inbox
+
+...

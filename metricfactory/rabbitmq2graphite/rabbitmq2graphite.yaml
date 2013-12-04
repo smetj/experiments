@@ -6,6 +6,7 @@ modules:
       url:
         - http://rabbitmq:15672/api/nodes
         - http://rabbitmq:15672/api/queues
+        - http://rabbitmq:15672/api/exchanges
       interval: 1
       username: guest
       password: guest
@@ -15,11 +16,11 @@ modules:
     arguments:
       source: lhi
 
-  # encode:
-  #   module: wishbone.builtin.metrics.graphite
-  #   arguments:
-  #     prefix: application.elasticsearch.
-  #     script: false
+  encode:
+    module: wishbone.builtin.metrics.graphite
+    arguments:
+      prefix: application.elasticsearch.
+      script: false
 
   output_screen:
     module: wishbone.builtin.output.stdout
@@ -33,5 +34,6 @@ modules:
 routingtable:
   #organize event stream
   - httprequest.outbox    -> decode.inbox
-  - decode.outbox         -> output_screen.inbox
+  - decode.outbox         -> encode.inbox
+  - encode.outbox         -> output_screen.inbox
 ...

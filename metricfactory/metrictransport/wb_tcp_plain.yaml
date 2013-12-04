@@ -1,0 +1,21 @@
+---
+modules:
+
+    hammer:
+        module: metricfactory.test.hammer
+        arguments:
+            batch: 10
+            batch_size: 100
+            set_size: 100
+            value: 1
+
+    tcp:
+        module: wishbone.output.tcp
+        arguments:
+            host: localhost
+            port: 10000
+
+routingtable:
+
+    - hammer.outbox             -> tcp.inbox
+...
