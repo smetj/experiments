@@ -1,9 +1,0 @@
----
-condition:
-    "1": re:a
-
-queue:
-    - outbox:
-        broker_key: rule0
-        broker_exchange: ""
-...

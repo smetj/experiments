@@ -1,6 +1,6 @@
 ---
 condition:
-    '1': re:ahmlqksdjfmlqkse
+    '1': re:b
 
 queue:
     - stdout:
