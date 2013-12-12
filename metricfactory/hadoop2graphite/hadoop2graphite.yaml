@@ -31,4 +31,5 @@ routingtable:
   - httprequest.outbox    -> decode.inbox
   - decode.outbox         -> encode.inbox
   - encode.outbox         -> output_screen.inbox
+  #- encode.outbox         -> output_tcp.inbox
 ...

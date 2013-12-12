@@ -1,9 +1,0 @@
----
-condition:
-    '1': re:b
-
-queue:
-    - stdout:
-        broker_exchange: ""
-        broker_key: ""
-...
