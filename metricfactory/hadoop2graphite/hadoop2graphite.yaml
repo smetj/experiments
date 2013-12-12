@@ -1,0 +1,34 @@
+---
+modules:
+  httprequest:
+    module: wishbone.input.udp
+    arguments:
+      port: 8649
+      #reuse_port: true
+
+  decode:
+    module: metricfactory.decoder.ganglia
+    arguments:
+      meta: false
+
+  encode:
+    module: wishbone.builtin.metrics.graphite
+    arguments:
+      prefix: application.hadoop.
+      script: false
+
+  output_screen:
+    module: wishbone.builtin.output.stdout
+
+  # output_tcp:
+  #   module: wishbone.output.tcp
+  #   arguments:
+  #     host: graphite-001
+  #     port: 2013
+
+routingtable:
+  #organize event stream
+  - httprequest.outbox    -> decode.inbox
+  - decode.outbox         -> encode.inbox
+  - encode.outbox         -> output_screen.inbox
+...
