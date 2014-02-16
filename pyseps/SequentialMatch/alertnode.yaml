@@ -10,19 +10,19 @@ modules:
             mode: decode
 
     match_engine:
-        module: pyseps.mapmatch
+        module: pyseps.sequentialmatch
         arguments:
             location: /var/cache/alerts/rules
 
-    stdout:
+    email:
         module: wishbone.builtin.output.stdout
         arguments:
             complete: true
 
-    email:
-        module: wishbone.output.email
-        arguments:
-            key: match_engine
+    # email:
+    #     module: wishbone.output.email
+    #     arguments:
+    #         key: match_engine
 
 
 routingtable:

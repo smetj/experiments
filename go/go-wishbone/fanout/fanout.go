@@ -1,8 +1,8 @@
 package main
 
 import "wishbone/router"
-import "wishbone/module/output/stdout"
 import "wishbone/module/input/testevent"
+import "wishbone/module/output/stdout"
 import "wishbone/module/flow/fanout"
 import "wishbone/module/output/tcp"
 import "wishbone/module/system/metrics/graphite"

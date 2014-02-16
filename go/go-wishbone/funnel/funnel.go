@@ -8,11 +8,19 @@ import "wishbone/module/output/tcp"
 import "wishbone/module/system/metrics/graphite"
 import "runtime"
 
+// import _ "net/http/pprof"
+// import "log"
+// import "net/http"
+
 // import "fmt"
 
 func main() {
 
-	runtime.GOMAXPROCS(4)
+	// go func() {
+	// 	log.Println(http.ListenAndServe("localhost:6060", nil))
+	// }()
+
+	runtime.GOMAXPROCS(2)
 	router := router.NewRouter()
 
 	input1 := testevent.NewModule("input1", "Hello I am number one.")
