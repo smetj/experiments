@@ -1,0 +1,27 @@
+---
+modules:
+
+    incoming_events:
+        module: wishbone.input.tcp
+
+    validate:
+        module: wishbone.function.json
+        arguments:
+            mode: decode
+
+    match_engine:
+        module: pyseps.sequentialmatch
+        arguments:
+            location: /var/cache/alerts/rules
+
+    email:
+        module: wishbone.output.email
+        arguments:
+            key: match_engine
+
+
+routingtable:
+  - incoming_events.outbox      -> validate.inbox
+  - validate.outbox             -> match_engine.inbox
+  - match_engine.email          -> email.inbox
+...

@@ -1,0 +1,14 @@
+---
+condition:
+    "check_command": re:check:host.alive
+    "hostproblemid": re:\d*
+    "hostgroupnames": in:tag:development
+
+queue:
+    - email:
+        from: monitoring@yourdomain.com
+        to:
+            - oncall@yourdomain.com
+        subject: UMI - Host  {{ hostname }} is  {{ hoststate }}.
+        template: host_email_alert
+...

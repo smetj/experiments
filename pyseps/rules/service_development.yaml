@@ -1,0 +1,13 @@
+---
+condition:
+    "serviceproblemid": re:\d*
+    "hostgroupnames": in:tag:development
+
+queue:
+    - email:
+        from: monitoring@yourdomain.com
+        to:
+            - oncall@yourdomain.com
+        subject: UMI - Service {{ service_display_name }} on host {{ hostname }} is {{ servicestate }}.
+        template: service_email_alert
+...
