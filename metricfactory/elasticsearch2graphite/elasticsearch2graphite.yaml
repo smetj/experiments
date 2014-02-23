@@ -3,13 +3,19 @@ modules:
   httprequest_one:
     module: wishbone.input.httprequest
     arguments:
-      url: "http://elasticsearch-001:9200/_cluster/nodes/stats"
+      url: "http://elasticsearch-node-001:9200/_cluster/stats"
       interval: 1
 
   httprequest_two:
     module: wishbone.input.httprequest
     arguments:
-      url: "http://elasticsearch-001:9200/_stats"
+      url: "http://elasticsearch-node-001:9200/_nodes/stats"
+      interval: 1
+
+  httprequest_three:
+    module: wishbone.input.httprequest
+    arguments:
+      url: "http://elasticsearch-node-001:9200/_stats"
       interval: 1
 
   funnel:
@@ -18,7 +24,7 @@ modules:
   decode:
     module: metricfactory.decoder.elasticsearch
     arguments:
-      source: lhi
+      source: mycluster
 
   encode:
     module: wishbone.builtin.metrics.graphite
@@ -32,14 +38,15 @@ modules:
   output_tcp:
     module: wishbone.output.tcp
     arguments:
-      host: graphite-001
+      host: localhost
       port: 2013
 
 routingtable:
   #organize event stream
-  - httprequest_one.outbox  -> funnel.one
-  - httprequest_two.outbox  -> funnel.two
-  - funnel.outbox           -> decode.inbox
-  - decode.outbox           -> encode.inbox
-  - encode.outbox           -> output_tcp.inbox
+  - httprequest_one.outbox   -> funnel.one
+  - httprequest_two.outbox   -> funnel.two
+  - httprequest_three.outbox -> funnel.three
+  - funnel.outbox            -> decode.inbox
+  - decode.outbox            -> encode.inbox
+  - encode.outbox            -> output_tcp.inbox
 ...
