@@ -12,22 +12,28 @@ modules:
     match_engine:
         module: pyseps.sequentialmatch
         arguments:
-            location: /var/cache/alerts/rules
+            location: rules
 
-    email:
-        module: wishbone.builtin.output.stdout
+    template:
+        module: wishbone.function.template
         arguments:
-            complete: true
+            key: match_engine
+            location: templates/
+            header_templates: ["subject"]
 
     # email:
     #     module: wishbone.output.email
     #     arguments:
     #         key: match_engine
 
+    stdout:
+        module: wishbone.builtin.output.stdout
+        arguments:
+            complete: true
 
 routingtable:
   - incoming_events.outbox      -> validate.inbox
   - validate.outbox             -> match_engine.inbox
-  - match_engine.email          -> email.inbox
-  - match_engine.stdout         -> stdout.inbox
+  - match_engine.email          -> template.inbox
+  - template.outbox             -> stdout.inbox
 ...
