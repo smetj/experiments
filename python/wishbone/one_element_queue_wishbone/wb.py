@@ -22,7 +22,7 @@
 #
 #
 
-# Wishbone experiment using queues with maxsize 1 element.
+# An event pipeline experiment using queues of maxsize 1
 
 import gevent
 from gevent import sleep, spawn
