@@ -4,9 +4,9 @@ modules:
     module: wishbone.input.httprequest
     arguments:
       url:
-        - http://rabbitmq:15672/api/nodes
-        - http://rabbitmq:15672/api/queues
-        - http://rabbitmq:15672/api/exchanges
+        - http://nlsrvup-sss02.ttg.global:55672/api/queues
+        - http://nlsrvup-sss02.ttg.global:55672/api/exchanges
+        - http://nlsrvup-sss02.ttg.global:55672/api/nodes
       interval: 1
       username: guest
       password: guest

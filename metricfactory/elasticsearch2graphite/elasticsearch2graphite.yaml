@@ -1,25 +1,13 @@
 ---
 modules:
-  httprequest_one:
+  httprequest:
     module: wishbone.input.httprequest
     arguments:
-      url: "http://elasticsearch-node-001:9200/_cluster/stats"
+      url:
+        - http://elasticsearch-node-001:9200/_cluster/stats
+        - http://elasticsearch-node-001:9200/_nodes/stats
+        - http://elasticsearch-node-001:9200/_stats
       interval: 1
-
-  httprequest_two:
-    module: wishbone.input.httprequest
-    arguments:
-      url: "http://elasticsearch-node-001:9200/_nodes/stats"
-      interval: 1
-
-  httprequest_three:
-    module: wishbone.input.httprequest
-    arguments:
-      url: "http://elasticsearch-node-001:9200/_stats"
-      interval: 1
-
-  funnel:
-    module: wishbone.builtin.flow.funnel
 
   decode:
     module: metricfactory.decoder.elasticsearch
@@ -43,10 +31,7 @@ modules:
 
 routingtable:
   #organize event stream
-  - httprequest_one.outbox   -> funnel.one
-  - httprequest_two.outbox   -> funnel.two
-  - httprequest_three.outbox -> funnel.three
-  - funnel.outbox            -> decode.inbox
+  - httprequest.outbox       -> decode.inbox
   - decode.outbox            -> encode.inbox
   - encode.outbox            -> output_tcp.inbox
 ...
