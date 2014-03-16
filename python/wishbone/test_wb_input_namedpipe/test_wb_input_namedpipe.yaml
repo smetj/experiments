@@ -1,0 +1,18 @@
+---
+modules:
+  input:
+    module: wishbone.input.namedpipe
+    arguments:
+      path: ./bleurp
+
+  output:
+    module: wishbone.builtin.output.stdout
+    arguments:
+      complete: true
+
+
+routingtable:
+  #organize event stream
+  #- loglevelfilter.outbox   -> stdout_logs.inbox
+  - input.outbox            -> output.inbox
+...

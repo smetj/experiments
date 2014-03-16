@@ -1,0 +1,17 @@
+---
+modules:
+  tcp:
+    module: wishbone.input.tcp
+    arguments:
+      reuse_port: true
+      delimiter: "\n"
+
+  stdout:
+    module: wishbone.builtin.output.stdout
+    arguments:
+      complete: true
+      pid: true
+
+routingtable:
+  - tcp.outbox  -> stdout.inbox
+...

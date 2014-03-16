@@ -1,0 +1,38 @@
+---
+modules:
+  # input:
+  #   module: wishbone.input.amqp
+  #   arguments:
+  #     host: nlsrvup-sss02.ttg.global
+  #     queue: experiment
+  #     no_ack: true
+
+  input:
+     module: wishbone.input.tcp
+
+  validate:
+    module: wishbone.function.json
+    arguments:
+        mode: decode
+
+  match_engine:
+    module: pyseps.sequentialmatch
+    arguments:
+        location: /home/smetj/projects/github/experiments/pyseps/rules
+
+  template:
+    module: wishbone.function.template
+    arguments:
+        location: /home/smetj/projects/github/experiments/pyseps
+
+  email:
+    module: wishbone.builtin.output.stdout
+    arguments:
+        complete: true
+
+routingtable:
+  - input.outbox        -> validate.inbox
+  - validate.outbox     -> match_engine.inbox
+  - match_engine.email  -> template.inbox
+  - template.outbox     -> email.inbox
+...

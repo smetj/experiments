@@ -1,0 +1,12 @@
+---
+condition:
+    "one": re:.*
+
+queue:
+    - email:
+        from: monitoring@yourdomain.com
+        to:
+            - oncall@yourdomain.com
+        subject: UMI - Host  {{ hostname }} is  {{ hoststate }}.
+        template: test
+...

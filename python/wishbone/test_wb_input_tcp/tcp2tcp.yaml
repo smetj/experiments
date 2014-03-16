@@ -1,0 +1,17 @@
+---
+modules:
+  input:
+    module: wishbone.input.tcp
+    arguments:
+      port: 10001
+      reuse_port: true
+
+  output:
+    module: wishbone.output.tcp
+    arguments:
+      host: localhost
+      port: 10002
+
+routingtable:
+  - input.outbox            -> output.inbox
+...
