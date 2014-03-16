@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  wb.py
+#  epe.py
 #
 #  Copyright 2014 Jelle Smet <development@smetj.net>
 #
