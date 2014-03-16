@@ -21,6 +21,9 @@
 #  MA 02110-1301, USA.
 #
 #
+
+# Wishbone experiment using queues with maxsize 1 element.
+
 import gevent
 from gevent import sleep, spawn
 from gevent import queue
