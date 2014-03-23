@@ -5,6 +5,7 @@ modules:
     arguments:
       url:
         - http://elasticsearch-node-001:9200/_cluster/stats
+        - http://elasticsearch-node-001:9200/_cluster/health
         - http://elasticsearch-node-001:9200/_nodes/stats
         - http://elasticsearch-node-001:9200/_stats
       interval: 1
