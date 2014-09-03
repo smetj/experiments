@@ -4,15 +4,11 @@ modules:
     incoming_events:
         module: wishbone.input.tcp
 
-    validate:
-        module: wishbone.function.json
-        arguments:
-            mode: decode
+    json:
+        module: wishbone.decode.json
 
     match_engine:
-        module: pyseps.sequentialmatch
-        arguments:
-            location: rules
+        module: wishbone.contrib.flow.sequentialmatch
 
     template:
         module: wishbone.function.template
@@ -27,13 +23,13 @@ modules:
     #         key: match_engine
 
     stdout:
-        module: wishbone.builtin.output.stdout
+        module: wishbone.output.stdout
         arguments:
             complete: true
 
 routingtable:
-  - incoming_events.outbox      -> validate.inbox
-  - validate.outbox             -> match_engine.inbox
+  - incoming_events.outbox      -> json.inbox
+  - json.outbox                 -> match_engine.inbox
   - match_engine.email          -> template.inbox
   - template.outbox             -> stdout.inbox
 ...
