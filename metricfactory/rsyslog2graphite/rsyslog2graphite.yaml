@@ -1,0 +1,34 @@
+---
+modules:
+  input:
+    module: wishbone.input.udp
+    arguments:
+      port: 1984
+
+  decode:
+    module: metricfactory.decoder.rsyslog
+    arguments:
+      source: lhi
+
+  encode:
+    module: wishbone.builtin.metrics.graphite
+    arguments:
+      prefix: application.rsyslog.
+      script: false
+
+  output_screen:
+    module: wishbone.builtin.output.stdout
+
+  output_tcp:
+    module: wishbone.output.tcp
+    arguments:
+      host: some-graphite-host.localdomain
+      port: 2013
+
+routingtable:
+  #organize event stream
+  - input.outbox          -> decode.inbox
+  - decode.outbox         -> encode.inbox
+  #- encode.outbox         -> output_screen.inbox
+  - encode.outbox         -> output_tcp.inbox
+...
